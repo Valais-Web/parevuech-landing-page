@@ -28,18 +28,18 @@ const Hero = () => {
           </p>
           
           <div className="flex flex-wrap gap-4 mb-8">
-            <div className="bg-[#B4CC99] text-white px-4 py-2 rounded-full border border-[#B4CC99]">
+            <div className="bg-white/10 backdrop-blur-sm text-white px-4 py-2 rounded-full border border-white/20">
               <span className="text-sm font-medium">Fabrication sur mesure</span>
             </div>
-            <div className="bg-[#8FA876] text-white px-4 py-2 rounded-full border border-[#8FA876]">
+            <div className="bg-white/10 backdrop-blur-sm text-white px-4 py-2 rounded-full border border-white/20">
               <span className="text-sm font-medium">Finitions premium</span>
             </div>
-            <div className="bg-[#6B8E47] text-white px-4 py-2 rounded-full border border-[#6B8E47]">
+            <div className="bg-white/10 backdrop-blur-sm text-white px-4 py-2 rounded-full border border-white/20">
               <span className="text-sm font-medium">Service installation local</span>
             </div>
           </div>
           
-          <Button onClick={scrollToDevis} size="lg" className="bg-white text-[#B4CC99] hover:bg-white/90 font-bold text-lg px-12 py-4 h-14 shadow-lg" data-gtm="cta_devis_click">
+          <Button onClick={scrollToDevis} size="lg" className="btn-primary text-lg px-12 py-4 h-14" data-gtm="cta_devis_click">
             Obtenir mon devis
           </Button>
         </div>
