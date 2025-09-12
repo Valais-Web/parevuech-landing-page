@@ -4,8 +4,7 @@ import Hero from "@/components/Hero";
 import SocialProof from "@/components/SocialProof";
 import ProductModels from "@/components/ProductModels";
 import AluminiumBenefits from "@/components/AluminiumBenefits";
-import ColorsFinishes from "@/components/ColorsFinishes";
-import CustomDesign from "@/components/CustomDesign";
+import CustomDesignColors from "@/components/CustomDesignColors";
 import Realizations from "@/components/Realizations";
 import Process from "@/components/Process";
 import FAQ from "@/components/FAQ";
@@ -36,8 +35,7 @@ const Index = () => {
         <SocialProof />
         <ProductModels />
         <AluminiumBenefits />
-        <ColorsFinishes />
-        <CustomDesign />
+        <CustomDesignColors />
         <Realizations />
         <Process />
         <FAQ />

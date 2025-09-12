@@ -172,17 +172,18 @@ const QuoteForm = () => {
                 </p>
               </div>
               
-              <p className="text-gray-700 mb-6 leading-relaxed">
-                Votre estimation et notre catalogue arrivent dans votre boîte e-mail. 
-                Un spécialiste vous recontactera dans les plus brefs délais pour affiner votre projet.
-              </p>
-              
-              <div className="bg-gray-50 rounded-xl p-4 text-sm text-gray-600">
-                <p>
-                  <strong>Important :</strong> Le prix final sera validé après vérification technique 
-                  et choix définitifs (motifs, ancrages, environnement).
+                <p className="text-gray-700 mb-6 leading-relaxed">
+                  Votre estimation et notre catalogue arrivent dans votre boîte e-mail. 
+                  Un spécialiste vous recontactera dans les plus brefs délais pour affiner votre projet 
+                  et organiser l'installation professionnelle.
                 </p>
-              </div>
+              
+                <div className="bg-gray-50 rounded-xl p-4 text-sm text-gray-600">
+                  <p>
+                    <strong>Service complet inclus :</strong> Installation professionnelle disponible dans toute la Suisse romande. 
+                    Le prix final sera validé après vérification technique et choix définitifs (motifs, ancrages, environnement).
+                  </p>
+                </div>
             </div>
           </div>
         </div>
@@ -369,27 +370,7 @@ const QuoteForm = () => {
                   </RadioGroup>
                 </div>
 
-                {/* Real-time estimation display */}
-                {formData.totalLength && formData.height && (
-                  <div className="bg-brand-cream rounded-2xl p-6">
-                    <h3 className="text-xl font-bold text-brand-green mb-4">
-                      Estimation indicative :
-                    </h3>
-                    {(() => {
-                      const { lowerBound, upperBound } = calculateEstimation();
-                      return (
-                        <div>
-                          <p className="text-2xl font-bold text-gray-900">
-                            {lowerBound.toLocaleString()} - {upperBound.toLocaleString()} CHF
-                          </p>
-                          <p className="text-sm text-gray-600 mt-2">
-                            Estimation indicative basée sur vos données. Le prix final sera validé après vérification technique et choix définitifs.
-                          </p>
-                        </div>
-                      );
-                    })()}
-                  </div>
-                )}
+                {/* Removed real-time estimation - will show only after submission */}
               </div>
             )}
 

@@ -39,24 +39,15 @@ const AluminiumBenefits = () => {
       <div className="container mx-auto px-6">
         <div className="text-center mb-16 fade-in-up">
           <h2 className="text-4xl font-bold text-gray-900 mb-6">
-            Beau aujourd'hui. Durable dans le temps.
+            L'aluminium thermolaqué : la solution premium pour vos extérieurs
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             L'aluminium thermolaqué combine esthétique moderne et performance technique 
             pour des solutions qui traversent les années sans compromis.
           </p>
-          
-          <div className="bg-white p-6 rounded-2xl shadow-lg max-w-4xl mx-auto">
-            <h3 className="text-lg font-bold text-brand-green mb-2">Spécifications techniques</h3>
-            <p className="text-gray-700">
-              <strong>Alliage aluminium 5754 H111</strong> • épaisseur 3 mm • découpe laser fibre • 
-              pliage de rigidification • thermolaquage premium • 
-              <strong>Poteaux 60 × 60 mm</strong> à sceller ou sur platines
-            </p>
-          </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
           {benefits.map((benefit, index) => {
             const IconComponent = benefit.icon;
             return (
@@ -69,6 +60,45 @@ const AluminiumBenefits = () => {
               </div>
             );
           })}
+        </div>
+
+        <div className="bg-gradient-to-r from-brand-green to-brand-green/80 p-8 rounded-3xl shadow-xl max-w-5xl mx-auto fade-in-up">
+          <div className="grid md:grid-cols-2 gap-8 items-center">
+            <div>
+              <h3 className="text-2xl font-bold text-white mb-4">Spécifications techniques premium</h3>
+              <p className="text-white/90 mb-4">
+                Nos pare-vues sont fabriqués selon les plus hauts standards de qualité, 
+                garantissant durabilité et esthétique exceptionnelles.
+              </p>
+            </div>
+            <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl border border-white/20">
+              <div className="grid gap-3 text-white">
+                <div className="flex items-center gap-3">
+                  <div className="w-2 h-2 bg-brand-cream rounded-full"></div>
+                  <span className="font-semibold">Alliage aluminium 5754 H111</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-2 h-2 bg-brand-cream rounded-full"></div>
+                  <span>Épaisseur 3 mm • Découpe laser fibre</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-2 h-2 bg-brand-cream rounded-full"></div>
+                  <span>Pliage de rigidification</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-2 h-2 bg-brand-cream rounded-full"></div>
+                  <span>Thermolaquage premium</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-2 h-2 bg-brand-cream rounded-full"></div>
+                  <span className="font-semibold">Poteaux 60 × 60 mm</span>
+                </div>
+                <div className="text-sm text-white/80 mt-2">
+                  Fixation à sceller ou sur platines
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

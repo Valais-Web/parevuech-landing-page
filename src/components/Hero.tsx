@@ -33,10 +33,16 @@ const Hero = () => {
             découpés au laser et thermolaqués. Plus de modèles, plus de couleurs, plus de sérénité.
           </p>
           
-          <div className="mb-6">
-            <p className="text-lg font-medium text-brand-cream">
-              Des pare-vues beaux, durables, vraiment occultants.
-            </p>
+          <div className="flex flex-wrap gap-4 mb-8">
+            <div className="bg-white/10 backdrop-blur-sm text-white px-4 py-2 rounded-full border border-white/20">
+              <span className="text-sm font-medium">Fabrication sur mesure</span>
+            </div>
+            <div className="bg-white/10 backdrop-blur-sm text-white px-4 py-2 rounded-full border border-white/20">
+              <span className="text-sm font-medium">Finitions premium</span>
+            </div>
+            <div className="bg-white/10 backdrop-blur-sm text-white px-4 py-2 rounded-full border border-white/20">
+              <span className="text-sm font-medium">Service installation local</span>
+            </div>
           </div>
           
           <Button 
