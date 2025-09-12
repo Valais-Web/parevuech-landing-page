@@ -9,18 +9,18 @@ const Header = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-brand-cream/95 backdrop-blur-sm border-b border-gray-100">
+    <header className="sticky top-0 z-50 bg-brand-green/95 backdrop-blur-sm border-b border-brand-green">
       <div className="container mx-auto px-6 h-16 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <img src="/lovable-uploads/logo-pare-vue.png" alt="Pare-Vue.ch Logo" className="w-8 h-8 object-contain" />
-          <div className="text-2xl font-bold text-brand-green">
+          <div className="text-2xl font-bold text-white">
             Pare-Vue.ch
           </div>
         </div>
         
         <Button 
           onClick={scrollToDevis}
-          className="btn-primary"
+          className="bg-white text-brand-green hover:bg-brand-cream hover:text-brand-green transition-all duration-300 font-medium px-6 py-2 rounded-full"
           data-gtm="cta_devis_click"
         >
           Obtenir mon devis
