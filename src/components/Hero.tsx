@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import heroImage from "@/assets/hero-pare-vue.jpg";
+import heroImage from "@/assets/hero-garden-screen.jpg";
 const Hero = () => {
   const scrollToDevis = () => {
     const devisSection = document.getElementById('devis');
@@ -13,7 +13,7 @@ const Hero = () => {
       <div className="absolute inset-0 bg-cover bg-center" style={{
       backgroundImage: `url(${heroImage})`
     }}>
-        <div className="absolute inset-0 bg-black/40"></div>
+        <div className="absolute inset-0 bg-black/60"></div>
       </div>
       
       <div className="container mx-auto px-6 relative z-10">
@@ -28,13 +28,13 @@ const Hero = () => {
           </p>
           
           <div className="flex flex-wrap gap-4 mb-8">
-            <div className="bg-white/10 backdrop-blur-sm text-white px-4 py-2 rounded-full border border-white/20">
+            <div className="bg-green-400/90 backdrop-blur-sm text-green-900 px-4 py-2 rounded-full border border-green-300">
               <span className="text-sm font-medium">Fabrication sur mesure</span>
             </div>
-            <div className="bg-white/10 backdrop-blur-sm text-white px-4 py-2 rounded-full border border-white/20">
+            <div className="bg-green-400/90 backdrop-blur-sm text-green-900 px-4 py-2 rounded-full border border-green-300">
               <span className="text-sm font-medium">Finitions premium</span>
             </div>
-            <div className="bg-white/10 backdrop-blur-sm text-white px-4 py-2 rounded-full border border-white/20">
+            <div className="bg-green-400/90 backdrop-blur-sm text-green-900 px-4 py-2 rounded-full border border-green-300">
               <span className="text-sm font-medium">Service installation local</span>
             </div>
           </div>
