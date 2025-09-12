@@ -1,12 +1,50 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useEffect } from "react";
+import Header from "@/components/Header";
+import Hero from "@/components/Hero";
+import SocialProof from "@/components/SocialProof";
+import ProductModels from "@/components/ProductModels";
+import AluminiumBenefits from "@/components/AluminiumBenefits";
+import ColorsFinishes from "@/components/ColorsFinishes";
+import CustomDesign from "@/components/CustomDesign";
+import Realizations from "@/components/Realizations";
+import Process from "@/components/Process";
+import FAQ from "@/components/FAQ";
+import QuoteForm from "@/components/QuoteForm";
+import Footer from "@/components/Footer";
 
 const Index = () => {
+  useEffect(() => {
+    // Initialize dataLayer for GTM
+    if (typeof window !== 'undefined') {
+      window.dataLayer = window.dataLayer || [];
+      
+      // Page view event
+      window.dataLayer.push({
+        event: 'page_view',
+        page_title: 'Pare-vue aluminium sur mesure Suisse romande',
+        page_location: window.location.href
+      });
+    }
+  }, []);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen">
+      <Header />
+      
+      <main>
+        <Hero />
+        <SocialProof />
+        <ProductModels />
+        <AluminiumBenefits />
+        <ColorsFinishes />
+        <CustomDesign />
+        <Realizations />
+        <Process />
+        <FAQ />
+        <QuoteForm />
+      </main>
+
+      <Footer />
     </div>
   );
 };

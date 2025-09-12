@@ -13,6 +13,9 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        primary: ["Instrument Sans", "system-ui", "sans-serif"],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -46,6 +49,12 @@ export default {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
+        },
+        brand: {
+          green: "hsl(var(--brand-green))",
+          cream: "hsl(var(--brand-cream))",
+          white: "hsl(var(--brand-white))",
+          black: "hsl(var(--brand-black))",
         },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
