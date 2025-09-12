@@ -20,9 +20,7 @@ const Hero = () => {
         <div className="max-w-4xl text-white fade-in-up">
           
           
-          <h1 className="text-5xl md:text-6xl font-bold leading-tight mb-6">
-            Intimité et design : vos pare-vues aluminium sur mesure en Suisse romande
-          </h1>
+          <h1 className="text-5xl md:text-6xl font-bold leading-tight mb-6">Intimité et design : vos palissades aluminium sur mesure en Suisse romande</h1>
           
           <p className="text-xl md:text-2xl leading-relaxed mb-8 text-white/90">
             Occultez le vis-à-vis, coupez le vent et valorisez votre extérieur avec des panneaux en aluminium 3 mm, 
@@ -30,13 +28,13 @@ const Hero = () => {
           </p>
           
           <div className="flex flex-wrap gap-4 mb-8">
-            <div className="bg-black/60 backdrop-blur-sm text-white px-4 py-2 rounded-full border border-white/30">
+            <div className="bg-white/10 backdrop-blur-sm text-white px-4 py-2 rounded-full border border-white/20">
               <span className="text-sm font-medium">Fabrication sur mesure</span>
             </div>
-            <div className="bg-black/60 backdrop-blur-sm text-white px-4 py-2 rounded-full border border-white/30">
+            <div className="bg-white/10 backdrop-blur-sm text-white px-4 py-2 rounded-full border border-white/20">
               <span className="text-sm font-medium">Finitions premium</span>
             </div>
-            <div className="bg-black/60 backdrop-blur-sm text-white px-4 py-2 rounded-full border border-white/30">
+            <div className="bg-white/10 backdrop-blur-sm text-white px-4 py-2 rounded-full border border-white/20">
               <span className="text-sm font-medium">Service installation local</span>
             </div>
           </div>
