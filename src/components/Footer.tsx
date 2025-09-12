@@ -3,8 +3,11 @@ const Footer = () => {
     <footer className="bg-gray-900 text-white py-12">
       <div className="container mx-auto px-6">
         <div className="text-center">
-          <div className="text-2xl font-bold text-white mb-4">
-            Pare-Vue.ch
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <img src="/lovable-uploads/logo-pare-vue.svg" alt="Pare-Vue.ch Logo" className="w-8 h-8" />
+            <div className="text-2xl font-bold text-white">
+              Pare-Vue.ch
+            </div>
           </div>
           
           <div className="flex justify-center space-x-8 text-sm">
