@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import heroImage from "@/assets/hero-pare-vue.jpg";
+import heroImage from "@/assets/hero-garden-background.jpg";
 const Hero = () => {
   const scrollToDevis = () => {
     const devisSection = document.getElementById('devis');
@@ -13,7 +13,7 @@ const Hero = () => {
       <div className="absolute inset-0 bg-cover bg-center" style={{
       backgroundImage: `url(${heroImage})`
     }}>
-        <div className="absolute inset-0 bg-black/40"></div>
+        <div className="absolute inset-0 bg-black/60"></div>
       </div>
       
       <div className="container mx-auto px-6 relative z-10">
@@ -28,18 +28,18 @@ const Hero = () => {
           </p>
           
           <div className="flex flex-wrap gap-4 mb-8">
-            <div className="bg-white/10 backdrop-blur-sm text-white px-4 py-2 rounded-full border border-white/20">
+            <div className="bg-emerald-500/90 backdrop-blur-sm text-white px-4 py-2 rounded-full border border-emerald-400">
               <span className="text-sm font-medium">Fabrication sur mesure</span>
             </div>
-            <div className="bg-white/10 backdrop-blur-sm text-white px-4 py-2 rounded-full border border-white/20">
+            <div className="bg-blue-500/90 backdrop-blur-sm text-white px-4 py-2 rounded-full border border-blue-400">
               <span className="text-sm font-medium">Finitions premium</span>
             </div>
-            <div className="bg-white/10 backdrop-blur-sm text-white px-4 py-2 rounded-full border border-white/20">
+            <div className="bg-orange-500/90 backdrop-blur-sm text-white px-4 py-2 rounded-full border border-orange-400">
               <span className="text-sm font-medium">Service installation local</span>
             </div>
           </div>
           
-          <Button onClick={scrollToDevis} size="lg" className="btn-primary text-lg px-12 py-4 h-14" data-gtm="cta_devis_click">
+          <Button onClick={scrollToDevis} size="lg" className="bg-white text-black hover:bg-gray-100 text-lg px-12 py-4 h-14 font-bold shadow-lg" data-gtm="cta_devis_click">
             Obtenir mon devis
           </Button>
         </div>
