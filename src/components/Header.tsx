@@ -9,7 +9,7 @@ const Header = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-brand-green-light border-b border-brand-green-light">
+    <header className="sticky top-0 z-50 bg-brand-cream/95 backdrop-blur-sm border-b border-gray-100">
       <div className="container mx-auto px-6 h-16 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <img src="/lovable-uploads/logo-pare-vue.png" alt="Pare-Vue.ch Logo" className="w-8 h-8 object-contain" />
@@ -20,7 +20,7 @@ const Header = () => {
         
         <Button 
           onClick={scrollToDevis}
-          className="bg-brand-green text-white hover:bg-brand-green/90 transition-all duration-300 font-medium px-6 py-2 rounded-full"
+          className="btn-primary"
           data-gtm="cta_devis_click"
         >
           Obtenir mon devis
