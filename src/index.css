@@ -42,15 +42,9 @@ All colors MUST be HSL.
     --brand-green: 162 100% 15%; /* #004D34 */
     --brand-cream: 42 100% 93%; /* #FFF0D9 */
     --brand-sage: 88 25% 70%; /* #B4CC99 */
-
-    /* UI Tokens */
-    --pill-green: 142 45% 65%; /* soft green similar to current pills */
-    --pill-green-contrast: 162 100% 15%; /* dark green text on soft pill */
-    --cta-green: 142 69% 42%; /* flashy CTA green */
-    --cta-green-hover: 142 69% 38%;
-
     --brand-white: 0 0% 100%;
     --brand-black: 0 0% 0%;
+    
     /* Typography Variables */
     --font-primary: "Instrument Sans", system-ui, sans-serif;
     --font-size-hero: 3.5rem;
@@ -122,21 +116,13 @@ All colors MUST be HSL.
     z-index: 10;
   }
   
-  .badge-soft-green {
-    @apply inline-flex items-center rounded-full px-4 py-2 text-sm font-medium border;
-    background-color: hsl(var(--pill-green) / 0.85);
-    color: hsl(var(--pill-green-contrast));
-    border-color: hsl(var(--pill-green) / 0.6);
-    backdrop-filter: saturate(120%) blur(2px);
-  }
-  
   .btn-primary {
     @apply inline-flex h-12 items-center justify-center rounded-full px-8 font-medium text-white transition-all duration-300 hover:shadow-lg;
-    background-color: hsl(var(--cta-green));
+    background-color: hsl(var(--brand-green));
   }
   
   .btn-primary:hover {
-    background-color: hsl(var(--cta-green-hover));
+    background-color: hsl(var(--brand-green) / 0.9);
     transform: translateY(-1px);
   }
   

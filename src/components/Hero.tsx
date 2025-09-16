@@ -28,13 +28,13 @@ const Hero = () => {
           </p>
           
           <div className="flex flex-wrap gap-4 mb-8">
-            <div className="badge-soft-green">
+            <div className="bg-green-400/90 backdrop-blur-sm text-green-900 px-4 py-2 rounded-full border border-green-300">
               <span className="text-sm font-medium">Fabrication sur mesure</span>
             </div>
-            <div className="badge-soft-green">
+            <div className="bg-green-400/90 backdrop-blur-sm text-green-900 px-4 py-2 rounded-full border border-green-300">
               <span className="text-sm font-medium">Finitions premium</span>
             </div>
-            <div className="badge-soft-green">
+            <div className="bg-green-400/90 backdrop-blur-sm text-green-900 px-4 py-2 rounded-full border border-green-300">
               <span className="text-sm font-medium">Service installation local</span>
             </div>
           </div>
