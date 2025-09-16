@@ -39,7 +39,7 @@ const Hero = () => {
             </div>
           </div>
           
-          <Button onClick={scrollToDevis} size="lg" className="btn-primary text-lg px-12 py-4 h-14" data-gtm="cta_devis_click">
+          <Button onClick={scrollToDevis} size="lg" data-gtm="cta_devis_click" className="btn-primary text-lg px-12 py-4 h-14 text-lime-50 bg-green-600 hover:bg-green-500">
             Obtenir mon devis
           </Button>
         </div>
