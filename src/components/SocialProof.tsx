@@ -92,7 +92,11 @@ const SocialProof = () => {
           
           <div className="text-center">
             <div className="text-brand-green font-bold text-sm mb-2">REVENDEUR OFFICIEL</div>
-            <div className="text-2xl font-bold text-gray-800 mb-6">Brand Conception</div>
+            <img 
+              src="/src/assets/logo-brand-conception.webp" 
+              alt="Brand Conception" 
+              className="h-8 mx-auto mb-6"
+            />
             
             <div className="bg-white p-6 rounded-2xl shadow-lg">
               <h3 className="text-lg font-bold text-brand-green mb-2">Service clé en main</h3>
