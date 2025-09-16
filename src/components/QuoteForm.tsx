@@ -57,12 +57,6 @@ const QuoteForm = () => {
   const handleInputChange = (field: string, value: string) => {
     const newData = { ...formData, [field]: value };
     setFormData(newData);
-    
-    // Update estimation on dimension changes
-    if (field === 'totalLength' || field === 'height' || field === 'decorativeCut') {
-      const { estimatedPrice } = calculateEstimation();
-      setEstimation(estimatedPrice);
-    }
   };
 
   const nextStep = () => {
@@ -103,7 +97,11 @@ const QuoteForm = () => {
         client_type: formData.clientType,
         product_type: formData.productType,
         estimated_price: estimatedPrice,
-        surface_m2: (parseFloat(formData.totalLength) || 0) * ((parseInt(formData.height) || 1800) / 1000)
+        price_range: `${lowerBound} - ${upperBound} CHF`,
+        surface_m2: (parseFloat(formData.totalLength) || 0) * ((parseInt(formData.height) || 1800) / 1000),
+        decorative_cut: formData.decorativeCut,
+        height: formData.height,
+        total_length: formData.totalLength
       });
     }
 
@@ -449,28 +447,6 @@ const QuoteForm = () => {
                   />
                 </div>
 
-                {/* Final estimation */}
-                {formData.totalLength && formData.height && (
-                  <div className="bg-gradient-to-r from-brand-green to-brand-green/90 text-white rounded-2xl p-6">
-                    <h3 className="text-xl font-bold mb-4">
-                      Récapitulatif de votre estimation :
-                    </h3>
-                    {(() => {
-                      const { lowerBound, upperBound } = calculateEstimation();
-                      const surface = (parseFloat(formData.totalLength) || 0) * ((parseInt(formData.height) || 1800) / 1000);
-                      
-                      return (
-                        <div className="space-y-2">
-                          <p>Surface : <strong>{surface.toFixed(1)} m²</strong></p>
-                          <p>Type : <strong>{formData.decorativeCut === 'yes' ? 'Avec motifs décoratifs' : 'Panneau plein'}</strong></p>
-                          <p className="text-2xl font-bold border-t border-white/20 pt-4">
-                            {lowerBound.toLocaleString()} - {upperBound.toLocaleString()} CHF
-                          </p>
-                        </div>
-                      );
-                    })()}
-                  </div>
-                )}
               </div>
             )}
 
