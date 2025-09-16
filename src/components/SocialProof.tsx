@@ -1,5 +1,6 @@
 import { Star, ChevronLeft, ChevronRight } from "lucide-react";
 import { useState, useEffect } from "react";
+import brandLogo from "@/assets/logo-brand-conception.webp";
 
 const SocialProof = () => {
   const testimonials = [
@@ -93,9 +94,9 @@ const SocialProof = () => {
           <div className="text-center">
             <div className="text-brand-green font-bold text-sm mb-2">REVENDEUR OFFICIEL</div>
             <img 
-              src="/src/assets/logo-brand-conception.webp" 
-              alt="Brand Conception" 
-              className="h-8 mx-auto mb-6"
+              src={brandLogo}
+              alt="Logo Brand Conception"
+              className="h-10 md:h-12 object-contain mx-auto mb-6"
             />
             
             <div className="bg-white p-6 rounded-2xl shadow-lg">
