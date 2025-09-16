@@ -117,12 +117,12 @@ All colors MUST be HSL.
   }
   
   .btn-primary {
-    @apply inline-flex h-12 items-center justify-center rounded-full px-8 font-medium text-white transition-all duration-300 hover:shadow-lg;
-    background-color: hsl(var(--brand-green));
+    @apply inline-flex h-12 items-center justify-center rounded-full px-8 font-medium text-green-900 transition-all duration-300 hover:shadow-lg;
+    background-color: hsl(88 60% 75%);
   }
   
   .btn-primary:hover {
-    background-color: hsl(var(--brand-green) / 0.9);
+    background-color: hsl(88 60% 70%);
     transform: translateY(-1px);
   }
   
