@@ -92,6 +92,16 @@
       </iframe>
     </noscript>
 
+    <!-- Hidden Netlify form for build-time detection -->
+    <form name="quote-form" netlify data-netlify="true" netlify-honeypot="bot-field" hidden>
+      <input type="text" name="firstName" />
+      <input type="text" name="lastName" />
+      <input type="email" name="email" />
+      <input type="text" name="postalCode" />
+      <input type="text" name="phone" />
+      <input type="text" name="bot-field" />
+    </form>
+
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
