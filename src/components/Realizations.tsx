@@ -1,6 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
+import type { CarouselApi } from "@/components/ui/carousel";
 const Realizations = () => {
   const [filter, setFilter] = useState("Tous");
+  const [api, setApi] = useState<CarouselApi>();
   const filters = ["Tous", "Occultant", "Décoratif", "Mixte"];
   const realizations = [{
     id: 1,
@@ -60,6 +63,18 @@ const Realizations = () => {
     location: "Sion"
   }];
   const filteredRealizations = filter === "Tous" ? realizations : realizations.filter(item => item.category === filter);
+  
+  useEffect(() => {
+    if (!api) {
+      return;
+    }
+
+    const interval = setInterval(() => {
+      api.scrollNext();
+    }, 3000); // Défile toutes les 3 secondes
+
+    return () => clearInterval(interval);
+  }, [api]);
   return <section className="py-20 bg-gray-50">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16 fade-in-up">
@@ -84,29 +99,42 @@ const Realizations = () => {
           </div>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredRealizations.map((item, index) => <div key={item.id} className={`bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 fade-in-up`} style={{
-          animationDelay: `${index * 0.1}s`
-        }}>
-              <div className="aspect-[4/3] relative overflow-hidden">
-                <img src={item.image} alt={item.title} className="w-full h-full object-cover transition-transform duration-300 hover:scale-105" />
-                <div className="absolute top-3 left-3">
-                  <span className="bg-brand-green text-white px-3 py-1 rounded-full text-xs font-medium">
-                    {item.category}
-                  </span>
+        <Carousel
+          setApi={setApi}
+          opts={{
+            align: "start",
+            loop: true,
+          }}
+          className="w-full max-w-7xl mx-auto"
+        >
+          <CarouselContent className="-ml-4">
+            {filteredRealizations.map((item, index) => (
+              <CarouselItem key={item.id} className="pl-4 md:basis-1/2 lg:basis-1/3 xl:basis-1/4">
+                <div className={`bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 fade-in-up h-full`} style={{
+                  animationDelay: `${index * 0.1}s`
+                }}>
+                  <div className="aspect-[4/3] relative overflow-hidden">
+                    <img src={item.image} alt={item.title} className="w-full h-full object-cover transition-transform duration-300 hover:scale-105" />
+                    <div className="absolute top-3 left-3">
+                      <span className="bg-brand-green text-white px-3 py-1 rounded-full text-xs font-medium">
+                        {item.category}
+                      </span>
+                    </div>
+                    <div className="absolute top-3 right-3">
+                      <span className="bg-white/90 backdrop-blur-sm text-brand-green px-3 py-1 rounded-full text-xs font-medium">
+                        {item.location}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="p-5">
+                    <h3 className="text-lg font-bold text-gray-900 mb-2">{item.title}</h3>
+                    <p className="text-gray-600 text-sm leading-relaxed">{item.description}</p>
+                  </div>
                 </div>
-                <div className="absolute top-3 right-3">
-                  <span className="bg-white/90 backdrop-blur-sm text-brand-green px-3 py-1 rounded-full text-xs font-medium">
-                    {item.location}
-                  </span>
-                </div>
-              </div>
-              <div className="p-5">
-                <h3 className="text-lg font-bold text-gray-900 mb-2">{item.title}</h3>
-                <p className="text-gray-600 text-sm leading-relaxed">{item.description}</p>
-              </div>
-            </div>)}
-        </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+        </Carousel>
 
         <div className="text-center mt-12 fade-in-up">
           <div className="bg-white p-6 rounded-2xl shadow-lg max-w-2xl mx-auto">
