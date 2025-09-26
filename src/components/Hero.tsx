@@ -20,7 +20,7 @@ const Hero = () => {
         <div className="max-w-4xl text-white fade-in-up">
           
           
-          <h1 className="text-5xl md:text-6xl font-bold leading-tight mb-6">Intimité et design : vos palissades aluminium sur mesure en Suisse romande</h1>
+          <h1 className="text-5xl md:text-6xl font-bold leading-tight mb-6">Intimité et design : vos palissades aluminium sur mesure</h1>
           
           <p className="text-xl md:text-2xl leading-relaxed mb-8 text-white/90">
             Occultez le vis-à-vis, coupez le vent et valorisez votre extérieur avec des panneaux en aluminium 3 mm, 

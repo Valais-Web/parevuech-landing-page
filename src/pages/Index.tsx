@@ -20,7 +20,7 @@ const Index = () => {
       // Page view event
       window.dataLayer.push({
         event: 'page_view',
-        page_title: 'Pare-vue aluminium sur mesure Suisse romande',
+        page_title: 'Pare-vue aluminium sur mesure Nord-Vaudois, Fribourg, Neuchâtel, Jura',
         page_location: window.location.href
       });
     }

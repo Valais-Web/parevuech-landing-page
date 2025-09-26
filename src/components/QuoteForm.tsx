@@ -183,7 +183,7 @@ const QuoteForm = () => {
               
                 <div className="bg-gray-50 rounded-xl p-4 text-sm text-gray-600">
                   <p>
-                    <strong>Service complet inclus :</strong> Installation professionnelle disponible dans toute la Suisse romande. 
+                    <strong>Service complet inclus :</strong> Installation professionnelle disponible (Nord-Vaudois, Fribourg, Neuchâtel, Jura). 
                     Le prix final sera validé après vérification technique et choix définitifs (motifs, ancrages, environnement).
                   </p>
                 </div>
