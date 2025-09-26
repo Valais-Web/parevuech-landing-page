@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import modelPlein from "@/assets/model-plein.jpg";
 import modelMalus from "@/assets/model-malus.jpg";
 import modelPicea from "@/assets/model-picea.jpg";
+import modelCarya from "@/assets/model-carya.jpg";
 import modelElegans from "@/assets/model-elegans.jpg";
 import modelFargesia from "@/assets/model-fargesia.jpg";
 
@@ -35,6 +36,11 @@ const ProductModels = () => {
       name: "Picea",
       description: "Prairie naturelle, effet végétal délicat",
       image: modelPicea
+    },
+    {
+      name: "Carya",
+      description: "Lignes organiques complexes, ombres artistiques",
+      image: modelCarya
     },
     {
       name: "Elegans",
