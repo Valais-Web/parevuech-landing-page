@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import heroImage from "@/assets/hero-garden-screen.jpg";
+import heroImage from "@/assets/hero-new.png";
 const Hero = () => {
   const scrollToDevis = () => {
     const devisSection = document.getElementById('devis');
