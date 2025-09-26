@@ -146,7 +146,7 @@ const CustomDesignColors = () => {
             <Button 
               onClick={scrollToDevis}
               size="lg"
-              className="bg-white text-brand-green hover:bg-white/90 text-lg px-12 py-4 h-14 font-semibold"
+              className="bg-white text-brand-green hover:bg-white/90 text-base sm:text-lg px-6 sm:px-12 py-3 sm:py-4 h-12 sm:h-14 font-semibold w-full sm:w-auto"
               data-gtm="cta_custom_devis_click"
             >
               Démarrer mon projet sur mesure

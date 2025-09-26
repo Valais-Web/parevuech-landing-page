@@ -519,7 +519,7 @@ const QuoteForm = () => {
                   type="button"
                   onClick={nextStep}
                   disabled={!isStepValid(currentStep)}
-                  className="btn-primary flex items-center space-x-2 ml-auto"
+                  className="btn-primary flex items-center justify-center space-x-2 w-full sm:w-auto sm:ml-auto text-sm sm:text-base px-4 sm:px-6"
                   data-gtm="form_step_next"
                 >
                   <span>Suivant</span>
@@ -529,7 +529,7 @@ const QuoteForm = () => {
                 <Button
                   type="submit"
                   disabled={!isStepValid(3)}
-                  className="btn-primary flex items-center space-x-2 ml-auto"
+                  className="btn-primary flex items-center justify-center space-x-2 w-full sm:w-auto sm:ml-auto text-sm sm:text-base px-4 sm:px-6"
                   data-gtm="lead_submit"
                 >
                   <span>Recevoir mon devis</span>

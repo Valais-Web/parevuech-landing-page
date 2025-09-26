@@ -88,7 +88,7 @@ const Process = () => {
           
           <Button 
             onClick={scrollToDevis}
-            className="btn-primary text-lg px-12 py-4 h-14"
+            className="btn-primary text-base sm:text-lg px-6 sm:px-12 py-3 sm:py-4 h-12 sm:h-14 w-full sm:w-auto"
             data-gtm="cta_devis_click"
           >
             Commencer maintenant
