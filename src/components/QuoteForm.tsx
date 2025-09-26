@@ -4,7 +4,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ChevronLeft, ChevronRight, CheckCircle2 } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { ChevronLeft, ChevronRight, CheckCircle2, Info } from "lucide-react";
 
 // Pricing constants - easily adjustable by the team
 const PRIX_BASE_M2 = 120; // CHF per m2 for standard full panel
@@ -25,7 +26,7 @@ const QuoteForm = () => {
     // Step 2 - Dimensions
     totalLength: '',
     height: '',
-    decorativeCut: '',
+    fixationType: '',
     
     // Step 3 - Contact
     postalCode: '',
@@ -41,11 +42,6 @@ const QuoteForm = () => {
     const surface = length * heightM;
     
     let basePrice = surface * PRIX_BASE_M2;
-    
-    // Apply decorative cut multiplier
-    if (formData.decorativeCut === 'yes') {
-      basePrice *= DECORATIVE_MULTIPLIER;
-    }
     
     const estimatedPrice = Math.round(basePrice);
     const lowerBound = Math.round(estimatedPrice * 0.8);
@@ -99,7 +95,7 @@ const QuoteForm = () => {
         estimated_price: estimatedPrice,
         price_range: `${lowerBound} - ${upperBound} CHF`,
         surface_m2: (parseFloat(formData.totalLength) || 0) * ((parseInt(formData.height) || 1800) / 1000),
-        decorative_cut: formData.decorativeCut,
+        fixation_type: formData.fixationType,
         height: formData.height,
         total_length: formData.totalLength
       });
@@ -141,7 +137,7 @@ const QuoteForm = () => {
       case 1:
         return formData.clientType && formData.objective && formData.timeline;
       case 2:
-        return formData.totalLength && formData.height && formData.decorativeCut;
+        return formData.totalLength && formData.height && formData.fixationType;
       case 3:
         return formData.postalCode && formData.firstName && formData.lastName && formData.email && formData.phone;
       default:
@@ -302,8 +298,8 @@ const QuoteForm = () => {
                     <SelectContent>
                       <SelectItem value="immediat">Immédiat</SelectItem>
                       <SelectItem value="6weeks">&lt; 6 semaines</SelectItem>
-                      <SelectItem value="7-10weeks">~7-10 semaines</SelectItem>
-                      <SelectItem value="10weeks+">&gt; 10 semaines</SelectItem>
+                      <SelectItem value="1.5-3months">1.5 mois à 3 mois</SelectItem>
+                      <SelectItem value="3months+">&gt; 3 mois</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -350,24 +346,45 @@ const QuoteForm = () => {
                 </div>
 
                 <div>
-                  <Label className="text-lg font-semibold text-gray-900 mb-4 block">
-                    Découpe décorative :
-                  </Label>
+                  <div className="flex items-center gap-2 mb-4">
+                    <Label className="text-lg font-semibold text-gray-900">
+                      Type de fixation :
+                    </Label>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Info className="w-5 h-5 text-gray-400 hover:text-gray-600 cursor-help" />
+                        </TooltipTrigger>
+                        <TooltipContent className="max-w-sm p-4">
+                          <div className="space-y-3">
+                            <div>
+                              <p className="font-semibold text-sm">À sceller :</p>
+                              <p className="text-xs">Il faut creuser et réaliser un petit socle en béton (point d'ancrage) avant d'y sceller le poteau. Solution robuste et durable.</p>
+                            </div>
+                            <div>
+                              <p className="font-semibold text-sm">Plaque de base (PDB) :</p>
+                              <p className="text-xs">Le poteau se fixe sur une plaque métallique que l'on visse directement sur un socle en béton déjà existant. Plus simple et rapide si vous avez déjà une dalle béton.</p>
+                            </div>
+                          </div>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </div>
                   <RadioGroup 
-                    value={formData.decorativeCut} 
-                    onValueChange={(value) => handleInputChange('decorativeCut', value)}
+                    value={formData.fixationType} 
+                    onValueChange={(value) => handleInputChange('fixationType', value)}
                     className="space-y-3"
                   >
                     <div className="flex items-center space-x-3 p-4 border border-gray-200 rounded-xl hover:border-brand-green transition-colors">
-                      <RadioGroupItem value="yes" id="decorative-yes" />
-                      <Label htmlFor="decorative-yes" className="flex-1 cursor-pointer">
-                        Oui, avec motifs décoratifs (+15%)
+                      <RadioGroupItem value="sceller" id="fixation-sceller" />
+                      <Label htmlFor="fixation-sceller" className="flex-1 cursor-pointer">
+                        À sceller
                       </Label>
                     </div>
                     <div className="flex items-center space-x-3 p-4 border border-gray-200 rounded-xl hover:border-brand-green transition-colors">
-                      <RadioGroupItem value="no" id="decorative-no" />
-                      <Label htmlFor="decorative-no" className="flex-1 cursor-pointer">
-                        Non, panneau plein occultant
+                      <RadioGroupItem value="pdb" id="fixation-pdb" />
+                      <Label htmlFor="fixation-pdb" className="flex-1 cursor-pointer">
+                        Plaque de base (PDB)
                       </Label>
                     </div>
                   </RadioGroup>
