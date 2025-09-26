@@ -153,18 +153,20 @@ const QuoteForm = () => {
 
     // This will be caught by Netlify Forms
     try {
-      const response = await fetch('/?no-cache=1', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Accept': 'application/json' },
-        body: new URLSearchParams({
-          'form-name': 'quote-form',
-          'bot-field': '',
-          ...Object.entries(submissionData).reduce((acc, [key, value]) => ({
-            ...acc,
-            [key]: String(value)
-          }), {})
-        }).toString()
+      // Build Netlify payload from the actual form element to ensure perfect compatibility
+      const formEl = e.currentTarget as HTMLFormElement;
+      const netlifyData = new FormData(formEl);
+      // Append our computed fields
+      Object.entries(submissionData).forEach(([key, value]) => {
+        netlifyData.set(key, String(value));
       });
+
+      const response = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(netlifyData as any).toString(),
+      });
+
 
       // Treat 2xx and 3xx as success (Netlify may respond with a redirect)
       if (response.ok || (response.status >= 300 && response.status < 400)) {
@@ -290,7 +292,9 @@ const QuoteForm = () => {
           >
             {/* Netlify form detection */}
             <input type="hidden" name="form-name" value="quote-form" />
-            <input type="hidden" name="bot-field" />
+            <p hidden>
+              <label>Don't fill this out: <input name="bot-field" /></label>
+            </p>
 
             {/* Step 1: Project */}
             {currentStep === 1 && (
