@@ -57,7 +57,24 @@ const QuoteForm = () => {
     const height = formData.height || '1800';
     const fixationType = formData.fixationType || 'sceller';
     
-    // Map height values to pricing keys
+    // Special handling for custom heights (sur mesure)
+    if (height === 'autre') {
+      const minPricing = PRICES_PER_ML['90']?.[fixationType];
+      const maxPricing = PRICES_PER_ML['180']?.[fixationType];
+      
+      if (!minPricing || !maxPricing) {
+        return { estimatedPrice: 0, lowerBound: 0, upperBound: 0 };
+      }
+      
+      // Apply +10% to both min and max prices for custom heights
+      const lowerBound = Math.round(length * minPricing.min * 1.1);
+      const upperBound = Math.round(length * maxPricing.max * 1.1);
+      const estimatedPrice = Math.round((lowerBound + upperBound) / 2);
+      
+      return { estimatedPrice, lowerBound, upperBound };
+    }
+    
+    // Map height values to pricing keys for standard heights
     const heightKey = height === '900' ? '90' : 
                      height === '1100' ? '110' : 
                      height === '1450' ? '145' : '180';
@@ -141,6 +158,7 @@ const QuoteForm = () => {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Accept': 'application/json' },
         body: new URLSearchParams({
           'form-name': 'quote-form',
+          'bot-field': '',
           ...Object.entries(submissionData).reduce((acc, [key, value]) => ({
             ...acc,
             [key]: String(value)
@@ -265,8 +283,9 @@ const QuoteForm = () => {
             onSubmit={handleSubmit}
             name="quote-form"
             method="POST"
+            action="/"
             data-netlify="true"
-            data-netlify-honeypot="bot-field"
+            netlify-honeypot="bot-field"
             className="bg-white rounded-3xl p-8 shadow-2xl fade-in-up"
           >
             {/* Netlify form detection */}
