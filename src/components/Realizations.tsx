@@ -1,65 +1,70 @@
 import { useState, useEffect } from "react";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import type { CarouselApi } from "@/components/ui/carousel";
+import realization1 from "@/assets/realization-1.jpg";
+import realization2 from "@/assets/realization-2.jpg";
+import realization3 from "@/assets/realization-3.jpg";
+import realization4 from "@/assets/realization-4.jpg";
+import realization5 from "@/assets/realization-5.jpg";
+import realization6 from "@/assets/realization-6.jpg";
+import realization7 from "@/assets/realization-7.jpg";
+import realization8 from "@/assets/realization-8.jpg";
+import realization9 from "@/assets/realization-9.jpg";
+import realization10 from "@/assets/realization-10.jpg";
 const Realizations = () => {
   const [api, setApi] = useState<CarouselApi>();
-  const realizations = [{
-    id: 1,
-    image: "/lovable-uploads/05078bbc-1a12-4c92-b911-7ce684d33557.png",
-    category: "Occultant",
-    title: "Pare-vue plein moderne",
-    description: "Installation résidentielle, intimité totale garantie",
-    location: "Lausanne"
-  }, {
-    id: 2,
-    image: "/lovable-uploads/bb703772-bb6f-4038-ab92-019bd456622b.png",
-    category: "Décoratif",
-    title: "Motif géométrique contemporain",
-    description: "Délimitation élégante avec jeu de lumière subtil",
-    location: "Genève"
-  }, {
-    id: 3,
-    image: "/lovable-uploads/c3467b57-7227-4a8f-9394-80a4accfd2ff.png",
-    category: "Mixte",
-    title: "Ensemble coordonné premium",
-    description: "Pare-vue + portillon assorti, installation clé en main",
-    location: "Montreux"
-  }, {
-    id: 4,
-    image: "/lovable-uploads/29a8e895-1e1a-4ef7-8301-c8cc90080a5d.png",
-    category: "Décoratif",
-    title: "Treillis végétal design",
-    description: "Support pour plantes grimpantes, effet naturel",
-    location: "Yverdon"
-  }, {
-    id: 5,
-    image: "/lovable-uploads/43fe775f-2a8d-46d7-abcd-b53673612607.png",
-    category: "Mixte",
-    title: "Aménagement complet sur mesure",
-    description: "Pare-vue + jardinières intégrées, projet personnalisé",
-    location: "Neuchâtel"
-  }, {
-    id: 6,
-    image: "/lovable-uploads/5b312112-5334-485d-8fce-db11d1a55a86.png",
-    category: "Occultant",
-    title: "Clôture haute performance",
-    description: "Protection et esthétique combinées, pose professionnelle",
-    location: "Fribourg"
-  }, {
-    id: 7,
-    image: "/lovable-uploads/6a2639c3-19e7-472f-90dd-548ed65612e4.png",
-    category: "Décoratif",
-    title: "Motif végétal raffiné",
-    description: "Design inspiré de la nature, finition premium",
-    location: "Vevey"
-  }, {
-    id: 8,
-    image: "/lovable-uploads/05078bbc-1a12-4c92-b911-7ce684d33557.png",
-    category: "Occultant",
-    title: "Installation résidentielle",
-    description: "Transformation complète d'un espace extérieur",
-    location: "Sion"
-  }];
+  const realizations = [
+    {
+      id: 1,
+      image: realization1,
+      title: "Pare-vue plein avec espace piscine"
+    },
+    {
+      id: 2,
+      image: realization2,
+      title: "Clôture décorative blanche"
+    },
+    {
+      id: 3,
+      image: realization3,
+      title: "Pare-vue décoratif moderne"
+    },
+    {
+      id: 4,
+      image: realization4,
+      title: "Terrasse avec motif Fargesia"
+    },
+    {
+      id: 5,
+      image: realization5,
+      title: "Motif Carya contemporain"
+    },
+    {
+      id: 6,
+      image: realization6,
+      title: "Design géométrique élégant"
+    },
+    {
+      id: 7,
+      image: realization7,
+      title: "Installation résidentielle premium"
+    },
+    {
+      id: 8,
+      image: realization8,
+      title: "Pare-vue décoratif ludique"
+    },
+    {
+      id: 9,
+      image: realization9,
+      title: "Système Azara horizontal"
+    },
+    {
+      id: 10,
+      image: realization10,
+      title: "Création personnalisée thématique"
+    }
+  ];
   
   
   useEffect(() => {
