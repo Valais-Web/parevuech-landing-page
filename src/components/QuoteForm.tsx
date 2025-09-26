@@ -7,9 +7,25 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { ChevronLeft, ChevronRight, CheckCircle2, Info } from "lucide-react";
 
-// Pricing constants - easily adjustable by the team
-const PRIX_BASE_M2 = 120; // CHF per m2 for standard full panel
-const DECORATIVE_MULTIPLIER = 1.15; // +15% for decorative cuts
+// Pricing per linear meter based on height and fixation type
+const PRICES_PER_ML = {
+  "90": {
+    "sceller": { min: 449.17, max: 605.00 },
+    "pdb": { min: 472.00, max: 635.25 }
+  },
+  "110": {
+    "sceller": { min: 563.75, max: 763.31 },
+    "pdb": { min: 591.25, max: 796.58 }
+  },
+  "145": {
+    "sceller": { min: 609.58, max: 766.33 },
+    "pdb": { min: 637.08, max: 882.29 }
+  },
+  "180": {
+    "sceller": { min: 866.25, max: 1241.62 },
+    "pdb": { min: 879.38, max: 1256.06 }
+  }
+};
 
 const QuoteForm = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -38,14 +54,24 @@ const QuoteForm = () => {
 
   const calculateEstimation = () => {
     const length = parseFloat(formData.totalLength) || 0;
-    const heightM = (parseInt(formData.height) || 1800) / 1000; // Convert mm to m
-    const surface = length * heightM;
+    const height = formData.height || '1800';
+    const fixationType = formData.fixationType || 'sceller';
     
-    let basePrice = surface * PRIX_BASE_M2;
+    // Map height values to pricing keys
+    const heightKey = height === '900' ? '90' : 
+                     height === '1100' ? '110' : 
+                     height === '1450' ? '145' : '180';
     
-    const estimatedPrice = Math.round(basePrice);
-    const lowerBound = Math.round(estimatedPrice * 0.8);
-    const upperBound = Math.round(estimatedPrice * 1.2);
+    // Get pricing for the specific height and fixation type
+    const pricing = PRICES_PER_ML[heightKey]?.[fixationType];
+    
+    if (!pricing) {
+      return { estimatedPrice: 0, lowerBound: 0, upperBound: 0 };
+    }
+    
+    const lowerBound = Math.round(length * pricing.min);
+    const upperBound = Math.round(length * pricing.max);
+    const estimatedPrice = Math.round((lowerBound + upperBound) / 2);
     
     return { estimatedPrice, lowerBound, upperBound };
   };
