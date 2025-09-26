@@ -143,7 +143,7 @@ const Realizations = () => {
           <div className="bg-white p-6 rounded-2xl shadow-lg max-w-2xl mx-auto">
             <h3 className="text-lg font-bold text-brand-green mb-2">Service d'installation professionnel</h3>
             <p className="text-gray-700 mb-4">
-              Nos équipes qualifiées assurent la pose dans toute la Suisse romande. 
+              Nos équipes qualifiées assurent la pose Nord-Vaudois, Fribourg, Neuchâtel, Jura. 
               Fixation à sceller ou sur platines selon votre projet.
             </p>
             <div className="flex flex-wrap justify-center gap-3 text-sm">
