@@ -499,42 +499,56 @@ const QuoteForm = () => {
             )}
 
             {/* Navigation Buttons */}
-            <div className="flex justify-between items-center mt-12 pt-8 border-t border-gray-200">
-              {currentStep > 1 ? (
-                <Button
-                  type="button"
-                  onClick={prevStep}
-                  variant="outline"
-                  className="flex items-center space-x-2"
-                >
-                  <ChevronLeft className="w-4 h-4" />
-                  <span>Précédent</span>
-                </Button>
-              ) : (
-                <div></div>
-              )}
-
+            <div className="mt-12 pt-8 border-t border-gray-200">
               {currentStep < 3 ? (
-                <Button
-                  type="button"
-                  onClick={nextStep}
-                  disabled={!isStepValid(currentStep)}
-                  className="btn-primary flex items-center justify-center space-x-2 w-full sm:w-auto sm:ml-auto text-sm sm:text-base px-4 sm:px-6"
-                  data-gtm="form_step_next"
-                >
-                  <span>Suivant</span>
-                  <ChevronRight className="w-4 h-4" />
-                </Button>
+                <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+                  {currentStep > 1 ? (
+                    <Button
+                      type="button"
+                      onClick={prevStep}
+                      variant="outline"
+                      className="flex items-center space-x-2 w-full sm:w-auto order-2 sm:order-1"
+                    >
+                      <ChevronLeft className="w-4 h-4" />
+                      <span>Précédent</span>
+                    </Button>
+                  ) : (
+                    <div className="hidden sm:block"></div>
+                  )}
+
+                  <Button
+                    type="button"
+                    onClick={nextStep}
+                    disabled={!isStepValid(currentStep)}
+                    className="btn-primary flex items-center justify-center space-x-2 w-full sm:w-auto order-1 sm:order-2"
+                    data-gtm="form_step_next"
+                  >
+                    <span>Suivant</span>
+                    <ChevronRight className="w-4 h-4" />
+                  </Button>
+                </div>
               ) : (
-                <Button
-                  type="submit"
-                  disabled={!isStepValid(3)}
-                  className="btn-primary flex items-center justify-center space-x-2 w-full sm:w-auto sm:ml-auto text-sm sm:text-base px-4 sm:px-6"
-                  data-gtm="lead_submit"
-                >
-                  <span>Recevoir mon devis</span>
-                  <ChevronRight className="w-4 h-4" />
-                </Button>
+                <div className="flex flex-col gap-4">
+                  <Button
+                    type="submit"
+                    disabled={!isStepValid(3)}
+                    className="btn-primary flex items-center justify-center space-x-2 w-full"
+                    data-gtm="lead_submit"
+                  >
+                    <span>Recevoir mon devis</span>
+                    <ChevronRight className="w-4 h-4" />
+                  </Button>
+                  
+                  <Button
+                    type="button"
+                    onClick={prevStep}
+                    variant="outline"
+                    className="flex items-center justify-center space-x-2 w-full"
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                    <span>Précédent</span>
+                  </Button>
+                </div>
               )}
             </div>
           </form>
