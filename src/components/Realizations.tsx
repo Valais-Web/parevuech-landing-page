@@ -2,9 +2,7 @@ import { useState, useEffect } from "react";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import type { CarouselApi } from "@/components/ui/carousel";
 const Realizations = () => {
-  const [filter, setFilter] = useState("Tous");
   const [api, setApi] = useState<CarouselApi>();
-  const filters = ["Tous", "Occultant", "Décoratif", "Mixte"];
   const realizations = [{
     id: 1,
     image: "/lovable-uploads/05078bbc-1a12-4c92-b911-7ce684d33557.png",
@@ -62,7 +60,7 @@ const Realizations = () => {
     description: "Transformation complète d'un espace extérieur",
     location: "Sion"
   }];
-  const filteredRealizations = filter === "Tous" ? realizations : realizations.filter(item => item.category === filter);
+  
   
   useEffect(() => {
     if (!api) {
@@ -91,14 +89,6 @@ const Realizations = () => {
           </div>
         </div>
 
-        <div className="flex justify-center mb-12 fade-in-up">
-          <div className="flex flex-wrap gap-2 bg-white p-2 rounded-2xl shadow-lg">
-            {filters.map(filterItem => <button key={filterItem} onClick={() => setFilter(filterItem)} className={`px-6 py-3 rounded-xl font-medium transition-all duration-200 ${filter === filterItem ? "bg-brand-green text-white shadow-md" : "text-gray-600 hover:text-brand-green hover:bg-gray-50"}`}>
-                {filterItem}
-              </button>)}
-          </div>
-        </div>
-
         <Carousel
           setApi={setApi}
           opts={{
@@ -108,28 +98,12 @@ const Realizations = () => {
           className="w-full max-w-7xl mx-auto"
         >
           <CarouselContent className="-ml-4">
-            {filteredRealizations.map((item, index) => (
+            {realizations.map((item, index) => (
               <CarouselItem key={item.id} className="pl-4 md:basis-1/2 lg:basis-1/3 xl:basis-1/4">
-                <div className={`bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 fade-in-up h-full`} style={{
+                <div className={`aspect-[4/3] relative overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 fade-in-up`} style={{
                   animationDelay: `${index * 0.1}s`
                 }}>
-                  <div className="aspect-[4/3] relative overflow-hidden">
-                    <img src={item.image} alt={item.title} className="w-full h-full object-cover transition-transform duration-300 hover:scale-105" />
-                    <div className="absolute top-3 left-3">
-                      <span className="bg-brand-green text-white px-3 py-1 rounded-full text-xs font-medium">
-                        {item.category}
-                      </span>
-                    </div>
-                    <div className="absolute top-3 right-3">
-                      <span className="bg-white/90 backdrop-blur-sm text-brand-green px-3 py-1 rounded-full text-xs font-medium">
-                        {item.location}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="p-5">
-                    <h3 className="text-lg font-bold text-gray-900 mb-2">{item.title}</h3>
-                    <p className="text-gray-600 text-sm leading-relaxed">{item.description}</p>
-                  </div>
+                  <img src={item.image} alt={item.title} className="w-full h-full object-cover transition-transform duration-300 hover:scale-105" />
                 </div>
               </CarouselItem>
             ))}
