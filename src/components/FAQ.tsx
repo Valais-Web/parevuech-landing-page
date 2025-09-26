@@ -33,7 +33,7 @@ const FAQ = () => {
     },
     {
       question: "Comment se déroule la commande, la livraison ou l'enlèvement ?",
-      answer: "Après réception de votre estimation et du catalogue, nous validons ensemble tous les détails techniques avant lancement en fabrication. Livraison ou enlèvement coordonné selon votre préférence et votre localisation (Nord-Vaudois, Fribourg, Neuchâtel, Jura)."
+      answer: "Après réception de votre estimation et du catalogue, nous validons ensemble tous les détails techniques avant lancement en fabrication. Livraison ou enlèvement coordonné selon votre préférence et votre localisation en Suisse romande."
     }
   ];
 

@@ -81,7 +81,7 @@ const Realizations = () => {
       <div className="container mx-auto px-6">
         <div className="text-center mb-16 fade-in-up">
           <h2 className="text-4xl font-bold text-gray-900 mb-6">
-            Galerie de nos réalisations
+            Galerie de nos réalisations en Suisse romande
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-4">
             Plus de 200 projets réalisés avec installation professionnelle. 
@@ -143,7 +143,7 @@ const Realizations = () => {
           <div className="bg-white p-6 rounded-2xl shadow-lg max-w-2xl mx-auto">
             <h3 className="text-lg font-bold text-brand-green mb-2">Service d'installation professionnel</h3>
             <p className="text-gray-700 mb-4">
-              Nos équipes qualifiées assurent la pose (Nord-Vaudois, Fribourg, Neuchâtel, Jura). 
+              Nos équipes qualifiées assurent la pose dans toute la Suisse romande. 
               Fixation à sceller ou sur platines selon votre projet.
             </p>
             <div className="flex flex-wrap justify-center gap-3 text-sm">
