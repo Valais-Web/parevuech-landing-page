@@ -49,7 +49,10 @@ const QuoteForm = () => {
     firstName: '',
     lastName: '',
     phone: '',
-    email: ''
+    email: '',
+    
+    // Tracking
+    gclid: new URLSearchParams(window.location.search).get('gclid') || ''
   });
 
   const calculateEstimation = () => {
@@ -292,6 +295,7 @@ const QuoteForm = () => {
           >
             {/* Netlify form detection */}
             <input type="hidden" name="form-name" value="quote-form" />
+            <input type="hidden" name="gclid" value={formData.gclid} />
             <p hidden>
               <label>Don't fill this out: <input name="bot-field" /></label>
             </p>
