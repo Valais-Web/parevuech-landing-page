@@ -6,15 +6,15 @@ const SocialProof = () => {
   const testimonials = [
     {
       text: "Nous avons installé des palissades de cette entreprise dans notre jardin et le résultat est magnifique. Solides et élégantes, elles ont transformé notre espace.",
-      author: "Claire M., Lausanne"
+      author: "Claire M., Échallens"
     },
     {
       text: "Service impeccable du devis à l'installation. L'équipe a su nous conseiller parfaitement pour notre projet d'aménagement. Résultat au-delà de nos attentes.",
-      author: "Marc D., Genève"
+      author: "Marc D., Fribourg"
     },
     {
       text: "Qualité exceptionnelle et finitions parfaites. Nos pare-vues résistent parfaitement aux intempéries et conservent leur éclat après 2 ans.",
-      author: "Sophie R., Montreux"
+      author: "Sophie R., Payerne"
     },
     {
       text: "Accompagnement personnalisé tout au long du projet. De la conception à la pose, tout s'est déroulé dans les règles de l'art.",
