@@ -1,5 +1,9 @@
 import { Palette, Ruler, Wrench, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import productLuminaire from "@/assets/product-luminaire.jpg";
+import productJardiniere from "@/assets/product-jardiniere.png";
+import productPortail from "@/assets/product-portail.png";
+import productTreillis from "@/assets/product-treillis.png";
 
 const CustomDesignColors = () => {
   const scrollToDevis = () => {
@@ -23,22 +27,22 @@ const CustomDesignColors = () => {
     {
       name: "Portails & portillons",
       description: "Coordonnés à vos pare-vues",
-      image: "/lovable-uploads/c3467b57-7227-4a8f-9394-80a4accfd2ff.png"
+      image: productPortail
     },
     {
       name: "Treillis muraux",
       description: "Support végétation, brise-vue",
-      image: "/lovable-uploads/29a8e895-1e1a-4ef7-8301-c8cc90080a5d.png"
+      image: productTreillis
     },
     {
       name: "Jardinières & bacs",
       description: "Végétalisation coordonnée",
-      image: "/lovable-uploads/43fe775f-2a8d-46d7-abcd-b53673612607.png"
+      image: productJardiniere
     },
     {
       name: "Luminaires",
       description: "Éclairage décoratif intégré",
-      image: "/lovable-uploads/5b312112-5334-485d-8fce-db11d1a55a86.png"
+      image: productLuminaire
     }
   ];
 
