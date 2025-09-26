@@ -158,6 +158,7 @@ const QuoteForm = () => {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Accept': 'application/json' },
         body: new URLSearchParams({
           'form-name': 'quote-form',
+          'bot-field': '',
           ...Object.entries(submissionData).reduce((acc, [key, value]) => ({
             ...acc,
             [key]: String(value)
@@ -282,8 +283,9 @@ const QuoteForm = () => {
             onSubmit={handleSubmit}
             name="quote-form"
             method="POST"
+            action="/"
             data-netlify="true"
-            data-netlify-honeypot="bot-field"
+            netlify-honeypot="bot-field"
             className="bg-white rounded-3xl p-8 shadow-2xl fade-in-up"
           >
             {/* Netlify form detection */}
