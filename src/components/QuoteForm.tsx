@@ -150,24 +150,37 @@ const QuoteForm = () => {
         first_name: formData.firstName,
         last_name: formData.lastName,
         phone: formData.phone,
-        email: formData.email
+        email: formData.email,
+        gclid: formData.gclid
       });
     }
 
     // This will be caught by Netlify Forms
     try {
-      // Build Netlify payload from the actual form element to ensure perfect compatibility
-      const formEl = e.currentTarget as HTMLFormElement;
-      const netlifyData = new FormData(formEl);
-      // Append our computed fields
-      Object.entries(submissionData).forEach(([key, value]) => {
-        netlifyData.set(key, String(value));
-      });
+      // Build Netlify payload exactly like the working example
+      const netlifyFormData = new FormData();
+      netlifyFormData.append('form-name', 'quote-form');
+      netlifyFormData.append('gclid', formData.gclid);
+      netlifyFormData.append('clientType', formData.clientType);
+      netlifyFormData.append('productType', formData.productType);
+      netlifyFormData.append('objective', formData.objective);
+      netlifyFormData.append('timeline', formData.timeline);
+      netlifyFormData.append('totalLength', formData.totalLength);
+      netlifyFormData.append('height', formData.height);
+      netlifyFormData.append('fixationType', formData.fixationType);
+      netlifyFormData.append('postalCode', formData.postalCode);
+      netlifyFormData.append('firstName', formData.firstName);
+      netlifyFormData.append('lastName', formData.lastName);
+      netlifyFormData.append('phone', formData.phone);
+      netlifyFormData.append('email', formData.email);
+      netlifyFormData.append('estimatedPrice', estimatedPrice.toString());
+      netlifyFormData.append('priceRange', `${lowerBound} - ${upperBound} CHF`);
+      netlifyFormData.append('submittedAt', new Date().toISOString());
 
       const response = await fetch('/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(netlifyData as any).toString(),
+        body: new URLSearchParams(netlifyFormData as any).toString(),
       });
 
 
@@ -296,6 +309,18 @@ const QuoteForm = () => {
             {/* Netlify form detection */}
             <input type="hidden" name="form-name" value="quote-form" />
             <input type="hidden" name="gclid" value={formData.gclid} />
+            <input type="hidden" name="clientType" value={formData.clientType} />
+            <input type="hidden" name="productType" value={formData.productType} />
+            <input type="hidden" name="objective" value={formData.objective} />
+            <input type="hidden" name="timeline" value={formData.timeline} />
+            <input type="hidden" name="totalLength" value={formData.totalLength} />
+            <input type="hidden" name="height" value={formData.height} />
+            <input type="hidden" name="fixationType" value={formData.fixationType} />
+            <input type="hidden" name="postalCode" value={formData.postalCode} />
+            <input type="hidden" name="firstName" value={formData.firstName} />
+            <input type="hidden" name="lastName" value={formData.lastName} />
+            <input type="hidden" name="phone" value={formData.phone} />
+            <input type="hidden" name="email" value={formData.email} />
             <p hidden>
               <label>Don't fill this out: <input name="bot-field" /></label>
             </p>
