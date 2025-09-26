@@ -528,25 +528,25 @@ const QuoteForm = () => {
                   </Button>
                 </div>
               ) : (
-                <div className="flex flex-col gap-4">
-                  <Button
-                    type="submit"
-                    disabled={!isStepValid(3)}
-                    className="btn-primary flex items-center justify-center space-x-2 w-full"
-                    data-gtm="lead_submit"
-                  >
-                    <span>Recevoir mon devis</span>
-                    <ChevronRight className="w-4 h-4" />
-                  </Button>
-                  
+                <div className="flex flex-col sm:flex-row gap-4 sm:justify-between sm:items-center">
                   <Button
                     type="button"
                     onClick={prevStep}
                     variant="outline"
-                    className="flex items-center justify-center space-x-2 w-full"
+                    className="flex items-center justify-center space-x-2 w-full sm:w-auto order-2 sm:order-1"
                   >
                     <ChevronLeft className="w-4 h-4" />
                     <span>Précédent</span>
+                  </Button>
+                  
+                  <Button
+                    type="submit"
+                    disabled={!isStepValid(3)}
+                    className="btn-primary flex items-center justify-center space-x-2 w-full sm:w-auto order-1 sm:order-2"
+                    data-gtm="lead_submit"
+                  >
+                    <span>Recevoir mon devis</span>
+                    <ChevronRight className="w-4 h-4" />
                   </Button>
                 </div>
               )}
