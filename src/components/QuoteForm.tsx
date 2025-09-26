@@ -118,12 +118,19 @@ const QuoteForm = () => {
         form_name: 'quote_form',
         client_type: formData.clientType,
         product_type: formData.productType,
+        objective: formData.objective,
+        timeline: formData.timeline,
         estimated_price: estimatedPrice,
         price_range: `${lowerBound} - ${upperBound} CHF`,
         surface_m2: (parseFloat(formData.totalLength) || 0) * ((parseInt(formData.height) || 1800) / 1000),
         fixation_type: formData.fixationType,
         height: formData.height,
-        total_length: formData.totalLength
+        total_length: formData.totalLength,
+        postal_code: formData.postalCode,
+        first_name: formData.firstName,
+        last_name: formData.lastName,
+        phone: formData.phone,
+        email: formData.email
       });
     }
 
