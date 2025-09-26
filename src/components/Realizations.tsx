@@ -11,6 +11,16 @@ import realization7 from "@/assets/realization-7.jpg";
 import realization8 from "@/assets/realization-8.jpg";
 import realization9 from "@/assets/realization-9.jpg";
 import realization10 from "@/assets/realization-10.jpg";
+import realization11 from "@/assets/realization-11.jpg";
+import realization12 from "@/assets/realization-12.jpg";
+import realization13 from "@/assets/realization-13.jpg";
+import realization14 from "@/assets/realization-14.jpg";
+import realization15 from "@/assets/realization-15.jpg";
+import realization16 from "@/assets/realization-16.jpg";
+import realization17 from "@/assets/realization-17.jpg";
+import realization18 from "@/assets/realization-18.jpg";
+import realization19 from "@/assets/realization-19.jpg";
+import realization20 from "@/assets/realization-20.jpg";
 const Realizations = () => {
   const [api, setApi] = useState<CarouselApi>();
   const realizations = [
@@ -63,6 +73,56 @@ const Realizations = () => {
       id: 10,
       image: realization10,
       title: "Création personnalisée thématique"
+    },
+    {
+      id: 11,
+      image: realization11,
+      title: "Motif Albizia végétal moderne"
+    },
+    {
+      id: 12,
+      image: realization12,
+      title: "Motif Cyprès décoratif avec portail"
+    },
+    {
+      id: 13,
+      image: realization13,
+      title: "Albizia teinte Mars sablé"
+    },
+    {
+      id: 14,
+      image: realization14,
+      title: "Installation longue ligne beige"
+    },
+    {
+      id: 15,
+      image: realization15,
+      title: "Clôture piscine motif Albizia"
+    },
+    {
+      id: 16,
+      image: realization16,
+      title: "Terrasse avec motif Papaver"
+    },
+    {
+      id: 17,
+      image: realization17,
+      title: "Clôture Alba géométrique"
+    },
+    {
+      id: 18,
+      image: realization18,
+      title: "Jardin avec pare-vue Alba"
+    },
+    {
+      id: 19,
+      image: realization19,
+      title: "Motif Toona végétal"
+    },
+    {
+      id: 20,
+      image: realization20,
+      title: "Design zen avec Bouddha"
     }
   ];
   
