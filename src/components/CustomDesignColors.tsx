@@ -50,7 +50,7 @@ const CustomDesignColors = () => {
     },
     {
       icon: Palette,
-      title: "17 couleurs RAL + nuancier complet",
+      title: "23 couleurs RAL + nuancier complet",
       description: "Teintes standard fine texture, Futura sablées, ou toute couleur RAL personnalisée"
     },
     {
