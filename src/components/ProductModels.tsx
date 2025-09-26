@@ -1,4 +1,10 @@
 import { Button } from "@/components/ui/button";
+import modelPlein from "@/assets/model-plein.jpg";
+import modelMalus from "@/assets/model-malus.jpg";
+import modelPicea from "@/assets/model-picea.jpg";
+import modelCarya from "@/assets/model-carya.jpg";
+import modelElegans from "@/assets/model-elegans.jpg";
+import modelFargesia from "@/assets/model-fargesia.jpg";
 
 const ProductModels = () => {
   const scrollToDevis = () => {
@@ -18,33 +24,33 @@ const ProductModels = () => {
   const models = [
     {
       name: "Plein",
-      description: "Occultation totale, ligne épurée",
-      image: "/lovable-uploads/05078bbc-1a12-4c92-b911-7ce684d33557.png"
+      description: "Occultation totale, surface pleine",
+      image: modelPlein
     },
     {
       name: "Malus", 
-      description: "Jeu de motifs géométriques fins",
-      image: "/lovable-uploads/29a8e895-1e1a-4ef7-8301-c8cc90080a5d.png"
+      description: "Motifs circulaires décoratifs élégants",
+      image: modelMalus
     },
     {
-      name: "Melia",
-      description: "Motif végétal léger",
-      image: "/lovable-uploads/c3467b57-7227-4a8f-9394-80a4accfd2ff.png"
+      name: "Picea",
+      description: "Prairie naturelle, effet végétal délicat",
+      image: modelPicea
     },
     {
       name: "Carya",
-      description: "Lignes organiques, ombres décoratives", 
-      image: "/lovable-uploads/bb703772-bb6f-4038-ab92-019bd456622b.png"
+      description: "Lignes organiques complexes, ombres artistiques",
+      image: modelCarya
     },
     {
       name: "Elegans",
-      description: "Design contemporain sophistiqué",
-      image: "/lovable-uploads/43fe775f-2a8d-46d7-abcd-b53673612607.png"
+      description: "Géométrie contemporaine sophistiquée",
+      image: modelElegans
     },
     {
       name: "Fargesia",
-      description: "Inspiration bambou moderne",
-      image: "/lovable-uploads/5b312112-5334-485d-8fce-db11d1a55a86.png"
+      description: "Inspiration bambou, design zen moderne",
+      image: modelFargesia
     }
   ];
 
