@@ -118,12 +118,19 @@ const QuoteForm = () => {
         form_name: 'quote_form',
         client_type: formData.clientType,
         product_type: formData.productType,
+        objective: formData.objective,
+        timeline: formData.timeline,
         estimated_price: estimatedPrice,
         price_range: `${lowerBound} - ${upperBound} CHF`,
         surface_m2: (parseFloat(formData.totalLength) || 0) * ((parseInt(formData.height) || 1800) / 1000),
         fixation_type: formData.fixationType,
         height: formData.height,
-        total_length: formData.totalLength
+        total_length: formData.totalLength,
+        postal_code: formData.postalCode,
+        first_name: formData.firstName,
+        last_name: formData.lastName,
+        phone: formData.phone,
+        email: formData.email
       });
     }
 
@@ -499,42 +506,56 @@ const QuoteForm = () => {
             )}
 
             {/* Navigation Buttons */}
-            <div className="flex justify-between items-center mt-12 pt-8 border-t border-gray-200">
-              {currentStep > 1 ? (
-                <Button
-                  type="button"
-                  onClick={prevStep}
-                  variant="outline"
-                  className="flex items-center space-x-2"
-                >
-                  <ChevronLeft className="w-4 h-4" />
-                  <span>Précédent</span>
-                </Button>
-              ) : (
-                <div></div>
-              )}
-
+            <div className="mt-12 pt-8 border-t border-gray-200">
               {currentStep < 3 ? (
-                <Button
-                  type="button"
-                  onClick={nextStep}
-                  disabled={!isStepValid(currentStep)}
-                  className="btn-primary flex items-center space-x-2 ml-auto"
-                  data-gtm="form_step_next"
-                >
-                  <span>Suivant</span>
-                  <ChevronRight className="w-4 h-4" />
-                </Button>
+                <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+                  {currentStep > 1 ? (
+                    <Button
+                      type="button"
+                      onClick={prevStep}
+                      variant="outline"
+                      className="flex items-center space-x-2 w-full sm:w-auto order-2 sm:order-1"
+                    >
+                      <ChevronLeft className="w-4 h-4" />
+                      <span>Précédent</span>
+                    </Button>
+                  ) : (
+                    <div className="hidden sm:block"></div>
+                  )}
+
+                  <Button
+                    type="button"
+                    onClick={nextStep}
+                    disabled={!isStepValid(currentStep)}
+                    className="btn-primary flex items-center justify-center space-x-2 w-full sm:w-auto order-1 sm:order-2"
+                    data-gtm="form_step_next"
+                  >
+                    <span>Suivant</span>
+                    <ChevronRight className="w-4 h-4" />
+                  </Button>
+                </div>
               ) : (
-                <Button
-                  type="submit"
-                  disabled={!isStepValid(3)}
-                  className="btn-primary flex items-center space-x-2 ml-auto"
-                  data-gtm="lead_submit"
-                >
-                  <span>Recevoir mon devis</span>
-                  <ChevronRight className="w-4 h-4" />
-                </Button>
+                <div className="flex flex-col sm:flex-row gap-4 sm:justify-between sm:items-center">
+                  <Button
+                    type="button"
+                    onClick={prevStep}
+                    variant="outline"
+                    className="flex items-center justify-center space-x-2 w-full sm:w-auto order-2 sm:order-1"
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                    <span>Précédent</span>
+                  </Button>
+                  
+                  <Button
+                    type="submit"
+                    disabled={!isStepValid(3)}
+                    className="btn-primary flex items-center justify-center space-x-2 w-full sm:w-auto order-1 sm:order-2"
+                    data-gtm="lead_submit"
+                  >
+                    <span>Recevoir mon devis</span>
+                    <ChevronRight className="w-4 h-4" />
+                  </Button>
+                </div>
               )}
             </div>
           </form>
