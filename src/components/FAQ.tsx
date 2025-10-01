@@ -25,7 +25,7 @@ const FAQ = () => {
     },
     {
       question: "Quelles teintes sont disponibles ? RAL personnalisé ?",
-      answer: "17 RAL fine texture + 6 Futura sablées en standard pour une livraison rapide. Tout RAL possible sur demande pour une personnalisation complète. Nous pouvons vous conseiller sur l'harmonie teinte/motif selon votre environnement."
+      answer: "23 RAL fine texture + 6 Futura sablées en standard pour une livraison rapide. Tout RAL possible sur demande pour une personnalisation complète. Nous pouvons vous conseiller sur l'harmonie teinte/motif selon votre environnement."
     },
     {
       question: "Quel délai moyen ?",
