@@ -9,7 +9,7 @@ import realization5 from "@/assets/realization-5.jpg";
 import realization6 from "@/assets/realization-6.jpg";
 import realization7 from "@/assets/realization-7.jpg";
 import realization8 from "@/assets/realization-8.jpg";
-import realization9 from "@/assets/realization-9.jpg";
+
 import realization10 from "@/assets/realization-10.jpg";
 import realization11 from "@/assets/realization-11.jpg";
 import realization12 from "@/assets/realization-12.jpg";
@@ -57,46 +57,42 @@ const Realizations = () => {
     title: "Pare-vue décoratif ludique"
   }, {
     id: 9,
-    image: realization9,
-    title: "Système Azara horizontal"
-  }, {
-    id: 10,
     image: realization10,
     title: "Création personnalisée thématique"
   }, {
-    id: 11,
+    id: 10,
     image: realization11,
     title: "Motif Albizia végétal moderne"
   }, {
-    id: 12,
+    id: 11,
     image: realization12,
     title: "Motif Cyprès décoratif avec portail"
   }, {
-    id: 13,
+    id: 12,
     image: realization13,
     title: "Albizia teinte Mars sablé"
   }, {
-    id: 14,
+    id: 13,
     image: realization14,
     title: "Installation longue ligne beige"
   }, {
-    id: 15,
+    id: 14,
     image: realization15,
     title: "Clôture piscine motif Albizia"
   }, {
-    id: 16,
+    id: 15,
     image: realization16,
     title: "Terrasse avec motif Papaver"
   }, {
-    id: 17,
+    id: 16,
     image: realization17,
     title: "Clôture Alba géométrique"
   }, {
-    id: 18,
+    id: 17,
     image: realization18,
     title: "Jardin avec pare-vue Alba"
   }, {
-    id: 19,
+    id: 18,
     image: realization19,
     title: "Motif Toona végétal"
   }];
