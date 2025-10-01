@@ -13,7 +13,7 @@ const SocialProof = () => {
       author: "Marc D., Fribourg"
     },
     {
-      text: "Qualité exceptionnelle et finitions parfaites. Nos pare-vues résistent parfaitement aux intempéries et conservent leur éclat après 2 ans.",
+      text: "Qualité exceptionnelle et finitions parfaites. Nos pare-vues résistent parfaitement aux intempéries et conservent leur éclat.",
       author: "Sophie R., Payerne"
     },
     {
