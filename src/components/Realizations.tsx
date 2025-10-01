@@ -20,7 +20,7 @@ import realization16 from "@/assets/realization-16.jpg";
 import realization17 from "@/assets/realization-17.jpg";
 import realization18 from "@/assets/realization-18.jpg";
 import realization19 from "@/assets/realization-19.jpg";
-import realization20 from "@/assets/realization-20.jpg";
+
 const Realizations = () => {
   const [api, setApi] = useState<CarouselApi>();
   const realizations = [{
@@ -99,10 +99,6 @@ const Realizations = () => {
     id: 19,
     image: realization19,
     title: "Motif Toona végétal"
-  }, {
-    id: 20,
-    image: realization20,
-    title: "Design zen avec Bouddha"
   }];
   useEffect(() => {
     if (!api) {
