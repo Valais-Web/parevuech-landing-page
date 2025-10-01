@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import type { CarouselApi } from "@/components/ui/carousel";
-import realization1 from "@/assets/realization-1.jpg";
 import realization2 from "@/assets/realization-2.jpg";
 import realization3 from "@/assets/realization-3.jpg";
 import realization4 from "@/assets/realization-4.jpg";
@@ -25,78 +24,74 @@ const Realizations = () => {
   const [api, setApi] = useState<CarouselApi>();
   const realizations = [{
     id: 1,
-    image: realization1,
-    title: "Pare-vue plein avec espace piscine"
-  }, {
-    id: 2,
     image: realization2,
     title: "Clôture décorative blanche"
   }, {
-    id: 3,
+    id: 2,
     image: realization3,
     title: "Pare-vue décoratif moderne"
   }, {
-    id: 4,
+    id: 3,
     image: realization4,
     title: "Terrasse avec motif Fargesia"
   }, {
-    id: 5,
+    id: 4,
     image: realization5,
     title: "Motif Carya contemporain"
   }, {
-    id: 6,
+    id: 5,
     image: realization6,
     title: "Design géométrique élégant"
   }, {
-    id: 7,
+    id: 6,
     image: realization7,
     title: "Installation résidentielle premium"
   }, {
-    id: 8,
+    id: 7,
     image: realization8,
     title: "Pare-vue décoratif ludique"
   }, {
-    id: 9,
+    id: 8,
     image: realization9,
     title: "Système Azara horizontal"
   }, {
-    id: 10,
+    id: 9,
     image: realization10,
     title: "Création personnalisée thématique"
   }, {
-    id: 11,
+    id: 10,
     image: realization11,
     title: "Motif Albizia végétal moderne"
   }, {
-    id: 12,
+    id: 11,
     image: realization12,
     title: "Motif Cyprès décoratif avec portail"
   }, {
-    id: 13,
+    id: 12,
     image: realization13,
     title: "Albizia teinte Mars sablé"
   }, {
-    id: 14,
+    id: 13,
     image: realization14,
     title: "Installation longue ligne beige"
   }, {
-    id: 15,
+    id: 14,
     image: realization15,
     title: "Clôture piscine motif Albizia"
   }, {
-    id: 16,
+    id: 15,
     image: realization16,
     title: "Terrasse avec motif Papaver"
   }, {
-    id: 17,
+    id: 16,
     image: realization17,
     title: "Clôture Alba géométrique"
   }, {
-    id: 18,
+    id: 17,
     image: realization18,
     title: "Jardin avec pare-vue Alba"
   }, {
-    id: 19,
+    id: 18,
     image: realization19,
     title: "Motif Toona végétal"
   }];
