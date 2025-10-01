@@ -23,115 +23,91 @@ import realization19 from "@/assets/realization-19.jpg";
 import realization20 from "@/assets/realization-20.jpg";
 const Realizations = () => {
   const [api, setApi] = useState<CarouselApi>();
-  const realizations = [
-    {
-      id: 1,
-      image: realization1,
-      title: "Pare-vue plein avec espace piscine"
-    },
-    {
-      id: 2,
-      image: realization2,
-      title: "Clôture décorative blanche"
-    },
-    {
-      id: 3,
-      image: realization3,
-      title: "Pare-vue décoratif moderne"
-    },
-    {
-      id: 4,
-      image: realization4,
-      title: "Terrasse avec motif Fargesia"
-    },
-    {
-      id: 5,
-      image: realization5,
-      title: "Motif Carya contemporain"
-    },
-    {
-      id: 6,
-      image: realization6,
-      title: "Design géométrique élégant"
-    },
-    {
-      id: 7,
-      image: realization7,
-      title: "Installation résidentielle premium"
-    },
-    {
-      id: 8,
-      image: realization8,
-      title: "Pare-vue décoratif ludique"
-    },
-    {
-      id: 9,
-      image: realization9,
-      title: "Système Azara horizontal"
-    },
-    {
-      id: 10,
-      image: realization10,
-      title: "Création personnalisée thématique"
-    },
-    {
-      id: 11,
-      image: realization11,
-      title: "Motif Albizia végétal moderne"
-    },
-    {
-      id: 12,
-      image: realization12,
-      title: "Motif Cyprès décoratif avec portail"
-    },
-    {
-      id: 13,
-      image: realization13,
-      title: "Albizia teinte Mars sablé"
-    },
-    {
-      id: 14,
-      image: realization14,
-      title: "Installation longue ligne beige"
-    },
-    {
-      id: 15,
-      image: realization15,
-      title: "Clôture piscine motif Albizia"
-    },
-    {
-      id: 16,
-      image: realization16,
-      title: "Terrasse avec motif Papaver"
-    },
-    {
-      id: 17,
-      image: realization17,
-      title: "Clôture Alba géométrique"
-    },
-    {
-      id: 18,
-      image: realization18,
-      title: "Jardin avec pare-vue Alba"
-    },
-    {
-      id: 19,
-      image: realization19,
-      title: "Motif Toona végétal"
-    },
-    {
-      id: 20,
-      image: realization20,
-      title: "Design zen avec Bouddha"
-    }
-  ];
-  
-  
+  const realizations = [{
+    id: 1,
+    image: realization1,
+    title: "Pare-vue plein avec espace piscine"
+  }, {
+    id: 2,
+    image: realization2,
+    title: "Clôture décorative blanche"
+  }, {
+    id: 3,
+    image: realization3,
+    title: "Pare-vue décoratif moderne"
+  }, {
+    id: 4,
+    image: realization4,
+    title: "Terrasse avec motif Fargesia"
+  }, {
+    id: 5,
+    image: realization5,
+    title: "Motif Carya contemporain"
+  }, {
+    id: 6,
+    image: realization6,
+    title: "Design géométrique élégant"
+  }, {
+    id: 7,
+    image: realization7,
+    title: "Installation résidentielle premium"
+  }, {
+    id: 8,
+    image: realization8,
+    title: "Pare-vue décoratif ludique"
+  }, {
+    id: 9,
+    image: realization9,
+    title: "Système Azara horizontal"
+  }, {
+    id: 10,
+    image: realization10,
+    title: "Création personnalisée thématique"
+  }, {
+    id: 11,
+    image: realization11,
+    title: "Motif Albizia végétal moderne"
+  }, {
+    id: 12,
+    image: realization12,
+    title: "Motif Cyprès décoratif avec portail"
+  }, {
+    id: 13,
+    image: realization13,
+    title: "Albizia teinte Mars sablé"
+  }, {
+    id: 14,
+    image: realization14,
+    title: "Installation longue ligne beige"
+  }, {
+    id: 15,
+    image: realization15,
+    title: "Clôture piscine motif Albizia"
+  }, {
+    id: 16,
+    image: realization16,
+    title: "Terrasse avec motif Papaver"
+  }, {
+    id: 17,
+    image: realization17,
+    title: "Clôture Alba géométrique"
+  }, {
+    id: 18,
+    image: realization18,
+    title: "Jardin avec pare-vue Alba"
+  }, {
+    id: 19,
+    image: realization19,
+    title: "Motif Toona végétal"
+  }, {
+    id: 20,
+    image: realization20,
+    title: "Design zen avec Bouddha"
+  }];
   useEffect(() => {
     if (!api) {
       return;
     }
-
     const interval = setInterval(() => {
       api.scrollNext();
     }, 3000); // Défile toutes les 3 secondes
@@ -144,34 +120,25 @@ const Realizations = () => {
           <h2 className="text-4xl font-bold text-gray-900 mb-6">
             Galerie de nos réalisations en Suisse romande
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-4">
-            Plus de 200 projets réalisés avec installation professionnelle. 
-            Découvrez comment nous transformons vos espaces extérieurs.
-          </p>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-4">Plus de 40 projets réalisés avec installation professionnelle. Découvrez comment nous transformons vos espaces extérieurs.</p>
           <div className="bg-white inline-flex items-center gap-2 px-4 py-2 rounded-full shadow-sm">
             <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
             <span className="text-sm font-medium text-gray-700">Équipe installation disponible</span>
           </div>
         </div>
 
-        <Carousel
-          setApi={setApi}
-          opts={{
-            align: "start",
-            loop: true,
-          }}
-          className="w-full max-w-7xl mx-auto"
-        >
+        <Carousel setApi={setApi} opts={{
+        align: "start",
+        loop: true
+      }} className="w-full max-w-7xl mx-auto">
           <CarouselContent className="-ml-4">
-            {realizations.map((item, index) => (
-              <CarouselItem key={item.id} className="pl-4 md:basis-1/2 lg:basis-1/3 xl:basis-1/4">
+            {realizations.map((item, index) => <CarouselItem key={item.id} className="pl-4 md:basis-1/2 lg:basis-1/3 xl:basis-1/4">
                 <div className={`aspect-[4/3] relative overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 fade-in-up`} style={{
-                  animationDelay: `${index * 0.1}s`
-                }}>
+              animationDelay: `${index * 0.1}s`
+            }}>
                   <img src={item.image} alt={item.title} className="w-full h-full object-cover transition-transform duration-300 hover:scale-105" />
                 </div>
-              </CarouselItem>
-            ))}
+              </CarouselItem>)}
           </CarouselContent>
         </Carousel>
 
