@@ -157,30 +157,31 @@ const QuoteForm = () => {
 
     // This will be caught by Netlify Forms
     try {
-      // Build Netlify payload exactly like the working example
-      const netlifyFormData = new FormData();
-      netlifyFormData.append('form-name', 'quote-form');
-      netlifyFormData.append('gclid', formData.gclid);
-      netlifyFormData.append('clientType', formData.clientType);
-      netlifyFormData.append('productType', formData.productType);
-      netlifyFormData.append('objective', formData.objective);
-      netlifyFormData.append('timeline', formData.timeline);
-      netlifyFormData.append('totalLength', formData.totalLength);
-      netlifyFormData.append('height', formData.height);
-      netlifyFormData.append('fixationType', formData.fixationType);
-      netlifyFormData.append('postalCode', formData.postalCode);
-      netlifyFormData.append('firstName', formData.firstName);
-      netlifyFormData.append('lastName', formData.lastName);
-      netlifyFormData.append('phone', formData.phone);
-      netlifyFormData.append('email', formData.email);
-      netlifyFormData.append('estimatedPrice', estimatedPrice.toString());
-      netlifyFormData.append('priceRange', `${lowerBound} - ${upperBound} CHF`);
-      netlifyFormData.append('submittedAt', new Date().toISOString());
+      // Build Netlify payload using URL-encoded body per docs
+      const payload = {
+        'form-name': 'quote-form',
+        gclid: formData.gclid || '',
+        clientType: formData.clientType || '',
+        productType: formData.productType || '',
+        objective: formData.objective || '',
+        timeline: formData.timeline || '',
+        totalLength: formData.totalLength || '',
+        height: formData.height || '',
+        fixationType: formData.fixationType || '',
+        postalCode: formData.postalCode || '',
+        firstName: formData.firstName || '',
+        lastName: formData.lastName || '',
+        phone: formData.phone || '',
+        email: formData.email || '',
+        estimatedPrice: String(estimatedPrice),
+        priceRange: `${lowerBound} - ${upperBound} CHF`,
+        submittedAt: new Date().toISOString(),
+      } as Record<string, string>;
 
       const response = await fetch('/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(netlifyFormData as any).toString(),
+        body: new URLSearchParams(payload).toString(),
       });
 
 
@@ -302,6 +303,7 @@ const QuoteForm = () => {
             name="quote-form"
             method="POST"
             action="/"
+            acceptCharset="UTF-8"
             data-netlify="true"
             netlify-honeypot="bot-field"
             className="bg-white rounded-3xl p-8 shadow-2xl fade-in-up"
@@ -401,6 +403,7 @@ const QuoteForm = () => {
                     </Label>
                     <Input
                       id="totalLength"
+                      name="totalLength"
                       type="number"
                       min="0.5"
                       step="0.1"
@@ -489,6 +492,7 @@ const QuoteForm = () => {
                     </Label>
                     <Input
                       id="firstName"
+                      name="firstName"
                       value={formData.firstName}
                       onChange={(e) => handleInputChange('firstName', e.target.value)}
                       className="h-12 border-gray-300"
@@ -502,6 +506,7 @@ const QuoteForm = () => {
                     </Label>
                     <Input
                       id="lastName"
+                      name="lastName"
                       value={formData.lastName}
                       onChange={(e) => handleInputChange('lastName', e.target.value)}
                       className="h-12 border-gray-300"
@@ -516,6 +521,7 @@ const QuoteForm = () => {
                   </Label>
                   <Input
                     id="postalCode"
+                    name="postalCode"
                     value={formData.postalCode}
                     onChange={(e) => handleInputChange('postalCode', e.target.value)}
                     placeholder="Ex: 1000"
@@ -530,6 +536,7 @@ const QuoteForm = () => {
                   </Label>
                   <Input
                     id="phone"
+                    name="phone"
                     type="tel"
                     value={formData.phone}
                     onChange={(e) => handleInputChange('phone', e.target.value)}
@@ -545,6 +552,7 @@ const QuoteForm = () => {
                   </Label>
                   <Input
                     id="email"
+                    name="email"
                     type="email"
                     value={formData.email}
                     onChange={(e) => handleInputChange('email', e.target.value)}
