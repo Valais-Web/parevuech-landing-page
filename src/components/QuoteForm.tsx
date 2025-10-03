@@ -7,25 +7,18 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { ChevronLeft, ChevronRight, CheckCircle2, Info } from "lucide-react";
 
-// Pricing per linear meter based on height and fixation type
 const PRICES_PER_ML = {
-  "90": {
-    "sceller": { min: 449.17, max: 605.00 },
-    "pdb": { min: 472.00, max: 635.25 }
-  },
-  "110": {
-    "sceller": { min: 563.75, max: 763.31 },
-    "pdb": { min: 591.25, max: 796.58 }
-  },
-  "145": {
-    "sceller": { min: 609.58, max: 766.33 },
-    "pdb": { min: 637.08, max: 882.29 }
-  },
-  "180": {
-    "sceller": { min: 866.25, max: 1241.62 },
-    "pdb": { min: 879.38, max: 1256.06 }
-  }
+  "90": { sceller: { min: 449.17, max: 605.0 }, pdb: { min: 472.0, max: 635.25 } },
+  "110": { sceller: { min: 563.75, max: 763.31 }, pdb: { min: 591.25, max: 796.58 } },
+  "145": { sceller: { min: 609.58, max: 766.33 }, pdb: { min: 637.08, max: 882.29 } },
+  "180": { sceller: { min: 866.25, max: 1241.62 }, pdb: { min: 879.38, max: 1256.06 } },
 };
+
+function encodeFormData(fd: FormData) {
+  // Robust across browsers: build URLSearchParams from entries array
+  const entries = Array.from(fd.entries()).map(([k, v]) => [k, typeof v === "string" ? v : String(v)]);
+  return new URLSearchParams(entries as any).toString();
+}
 
 const QuoteForm = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -33,26 +26,19 @@ const QuoteForm = () => {
   const [estimation, setEstimation] = useState(0);
 
   const [formData, setFormData] = useState({
-    // Step 1 - Project
     clientType: "",
     productType: "pare-vue",
     objective: "",
     timeline: "",
-
-    // Step 2 - Dimensions
     totalLength: "",
     height: "",
     fixationType: "",
-
-    // Step 3 - Contact
     postalCode: "",
     firstName: "",
     lastName: "",
     phone: "",
     email: "",
-
-    // Tracking
-    gclid: new URLSearchParams(window.location.search).get("gclid") || ""
+    gclid: new URLSearchParams(window.location.search).get("gclid") || "",
   });
 
   const calculateEstimation = () => {
@@ -63,27 +49,16 @@ const QuoteForm = () => {
     if (height === "autre") {
       const minPricing = PRICES_PER_ML["90"]?.[fixationType];
       const maxPricing = PRICES_PER_ML["180"]?.[fixationType];
-
-      if (!minPricing || !maxPricing) {
-        return { estimatedPrice: 0, lowerBound: 0, upperBound: 0 };
-      }
-
+      if (!minPricing || !maxPricing) return { estimatedPrice: 0, lowerBound: 0, upperBound: 0 };
       const lowerBound = Math.round(length * minPricing.min * 1.1);
       const upperBound = Math.round(length * maxPricing.max * 1.1);
       const estimatedPrice = Math.round((lowerBound + upperBound) / 2);
-
       return { estimatedPrice, lowerBound, upperBound };
     }
 
-    const heightKey =
-      height === "900" ? "90" :
-      height === "1100" ? "110" :
-      height === "1450" ? "145" : "180";
-
+    const heightKey = height === "900" ? "90" : height === "1100" ? "110" : height === "1450" ? "145" : "180";
     const pricing = PRICES_PER_ML[heightKey]?.[fixationType];
-    if (!pricing) {
-      return { estimatedPrice: 0, lowerBound: 0, upperBound: 0 };
-    }
+    if (!pricing) return { estimatedPrice: 0, lowerBound: 0, upperBound: 0 };
 
     const lowerBound = Math.round(length * pricing.min);
     const upperBound = Math.round(length * pricing.max);
@@ -93,46 +68,70 @@ const QuoteForm = () => {
   };
 
   const handleInputChange = (field: string, value: string) => {
-    const newData = { ...formData, [field]: value };
-    setFormData(newData);
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   const nextStep = () => {
     if (typeof window !== "undefined" && (window as any).dataLayer) {
-      (window as any).dataLayer.push({
-        event: "form_step_next",
-        form_step: currentStep,
-        form_name: "quote_form",
-      });
+      (window as any).dataLayer.push({ event: "form_step_next", form_step: currentStep, form_name: "quote_form" });
     }
-    setCurrentStep((prev) => prev + 1);
+    setCurrentStep((p) => p + 1);
   };
 
-  const prevStep = () => setCurrentStep((prev) => prev - 1);
+  const prevStep = () => setCurrentStep((p) => p - 1);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     const { estimatedPrice, lowerBound, upperBound } = calculateEstimation();
 
-    // Met à jour les 3 champs calculés AVANT sérialisation
+    // Met à jour les 3 champs calculés s'ils existent (ne casse jamais si absents)
     const formEl = e.currentTarget;
-    (formEl.querySelector('input[name="estimatedPrice"]') as HTMLInputElement).value = String(estimatedPrice);
-    (formEl.querySelector('input[name="priceRange"]') as HTMLInputElement).value = `${lowerBound} - ${upperBound} CHF`;
-    (formEl.querySelector('input[name="submittedAt"]') as HTMLInputElement).value = new Date().toISOString();
+    const estEl = formEl.querySelector('input[name="estimatedPrice"]') as HTMLInputElement | null;
+    const rangeEl = formEl.querySelector('input[name="priceRange"]') as HTMLInputElement | null;
+    const dateEl = formEl.querySelector('input[name="submittedAt"]') as HTMLInputElement | null;
+    if (estEl) estEl.value = String(estimatedPrice);
+    if (rangeEl) rangeEl.value = `${lowerBound} - ${upperBound} CHF`;
+    if (dateEl) dateEl.value = new Date().toISOString();
 
-    // Sérialise le formulaire lui-même (garantit un mapping 1:1 avec l'HTML que Netlify a vu)
+    // Push complet dans dataLayer (même si GTM est bloqué sur desktop, ça ne casse rien)
+    if (typeof window !== "undefined" && (window as any).dataLayer) {
+      const surface_m2 =
+        (parseFloat(formData.totalLength) || 0) * ((parseInt(formData.height || "1800", 10) || 1800) / 1000);
+      (window as any).dataLayer.push({
+        event: "lead_submit",
+        form_name: "quote_form",
+        client_type: formData.clientType,
+        product_type: formData.productType,
+        objective: formData.objective,
+        timeline: formData.timeline,
+        estimated_price: estimatedPrice,
+        price_range: `${lowerBound} - ${upperBound} CHF`,
+        surface_m2,
+        fixation_type: formData.fixationType,
+        height: formData.height,
+        total_length: formData.totalLength,
+        postal_code: formData.postalCode,
+        first_name: formData.firstName,
+        last_name: formData.lastName,
+        phone: formData.phone,
+        email: formData.email,
+        gclid: formData.gclid,
+      });
+    }
+
+    // Sérialise le FORM lui-même, encodage béton
     const fd = new FormData(formEl);
-    const body = new URLSearchParams(fd as any).toString();
+    const body = encodeFormData(fd);
 
     try {
-      const response = await fetch("/", {
+      // netlify-friendly endpoint for SPA to avoid any cache/proxy weirdness
+      const response = await fetch("/?no-cache=1", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body,
       });
 
-      // OK pour Netlify si 2xx ou 3xx (redirection)
+      // Succès (2xx) / redirection (3xx)
       if (response.ok || (response.status >= 300 && response.status < 400)) {
         setEstimation(estimatedPrice);
         setIsSubmitted(true);
@@ -151,11 +150,11 @@ const QuoteForm = () => {
   const isStepValid = (step: number) => {
     switch (step) {
       case 1:
-        return formData.clientType && formData.objective && formData.timeline;
+        return !!(formData.clientType && formData.objective && formData.timeline);
       case 2:
-        return formData.totalLength && formData.height && formData.fixationType;
+        return !!(formData.totalLength && formData.height && formData.fixationType);
       case 3:
-        return formData.postalCode && formData.firstName && formData.lastName && formData.email && formData.phone;
+        return !!(formData.postalCode && formData.firstName && formData.lastName && formData.email && formData.phone);
       default:
         return false;
     }
@@ -163,37 +162,28 @@ const QuoteForm = () => {
 
   if (isSubmitted) {
     const { lowerBound, upperBound } = calculateEstimation();
-
     return (
       <section id="devis" className="py-20 bg-gradient-to-br from-brand-cream/30 to-white">
         <div className="container mx-auto px-6">
           <div className="max-w-2xl mx-auto text-center">
             <div className="bg-white rounded-3xl p-12 shadow-2xl fade-in-up">
               <CheckCircle2 className="w-20 h-20 text-green-500 mx-auto mb-6" />
-
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">
-                Merci pour votre demande !
-              </h2>
-
+              <h2 className="text-3xl font-bold text-gray-900 mb-6">Merci pour votre demande !</h2>
               <div className="bg-brand-cream rounded-2xl p-6 mb-6">
                 <p className="text-lg font-bold text-brand-green mb-2">Votre estimation indicative :</p>
                 <p className="text-3xl font-bold text-gray-900">
                   {lowerBound.toLocaleString()} - {upperBound.toLocaleString()} CHF
                 </p>
-                <p className="text-sm text-gray-600 mt-2">
-                  *Estimation indicative basée sur vos données
-                </p>
+                <p className="text-sm text-gray-600 mt-2">*Estimation indicative basée sur vos données</p>
               </div>
-
               <p className="text-gray-700 mb-6 leading-relaxed">
-                Votre estimation et notre catalogue arrivent dans votre boîte e-mail.
-                Un spécialiste vous recontactera dans les plus brefs délais.
+                Votre estimation et notre catalogue arrivent dans votre boîte e-mail. Un spécialiste vous recontactera
+                rapidement pour affiner votre projet et organiser l'installation professionnelle.
               </p>
-
               <div className="bg-gray-50 rounded-xl p-4 text-sm text-gray-600">
                 <p>
-                  <strong>Service complet inclus :</strong> Installation professionnelle disponible dans toute la Suisse romande.
-                  Le prix final sera validé après vérification technique et choix définitifs (motifs, ancrages, environnement).
+                  <strong>Service complet inclus :</strong> Installation professionnelle en Suisse romande. Le prix final
+                  sera validé après vérification technique et choix définitifs (motifs, ancrages, environnement).
                 </p>
               </div>
             </div>
@@ -225,9 +215,7 @@ const QuoteForm = () => {
                     {step}
                   </div>
                   {step < 3 && (
-                    <div
-                      className={`flex-1 h-2 mx-4 rounded ${step < currentStep ? "bg-brand-green" : "bg-gray-200"}`}
-                    />
+                    <div className={`flex-1 h-2 mx-4 rounded ${step < currentStep ? "bg-brand-green" : "bg-gray-200"}`} />
                   )}
                 </div>
               ))}
@@ -248,27 +236,29 @@ const QuoteForm = () => {
             data-netlify="true"
             netlify-honeypot="bot-field"
             className="bg-white rounded-3xl p-8 shadow-2xl fade-in-up"
+            noValidate
           >
             {/* Netlify form detection */}
             <input type="hidden" name="form-name" value="quote-form" />
+
             {/* Tracking */}
             <input type="hidden" name="gclid" value={formData.gclid} />
 
-            {/* Hidden only for non-native inputs (Radix) and computed fields */}
+            {/* Hidden pour non-natifs (Radix) + calculés */}
             <input type="hidden" name="clientType" value={formData.clientType} />
             <input type="hidden" name="productType" value={formData.productType} />
             <input type="hidden" name="objective" value={formData.objective} />
             <input type="hidden" name="timeline" value={formData.timeline} />
             <input type="hidden" name="height" value={formData.height} />
             <input type="hidden" name="fixationType" value={formData.fixationType} />
-            {/* computed */}
+
+            {/* Calculés (valeurs injectées avant sérialisation) */}
             <input type="hidden" name="estimatedPrice" />
             <input type="hidden" name="priceRange" />
             <input type="hidden" name="submittedAt" />
+
             {/* honeypot */}
-            <p hidden>
-              <label>Don't fill this out: <input name="bot-field" /></label>
-            </p>
+            <p hidden><label>Don't fill this out: <input name="bot-field" /></label></p>
 
             {/* Step 1: Project */}
             {currentStep === 1 && (
@@ -277,7 +267,7 @@ const QuoteForm = () => {
                   <Label className="text-lg font-semibold text-gray-900 mb-4 block">Vous êtes :</Label>
                   <RadioGroup
                     value={formData.clientType}
-                    onValueChange={(value) => handleInputChange("clientType", value)}
+                    onValueChange={(v) => handleInputChange("clientType", v)}
                     className="space-y-3"
                   >
                     <div className="flex items-center space-x-3 p-4 border border-gray-200 rounded-xl hover:border-brand-green transition-colors">
@@ -286,9 +276,7 @@ const QuoteForm = () => {
                     </div>
                     <div className="flex items-center space-x-3 p-4 border border-gray-200 rounded-xl hover:border-brand-green transition-colors">
                       <RadioGroupItem value="professionnel" id="professionnel" />
-                      <Label htmlFor="professionnel" className="flex-1 cursor-pointer">
-                        Professionnel (architecte, paysagiste, entreprise)
-                      </Label>
+                      <Label htmlFor="professionnel" className="flex-1 cursor-pointer">Professionnel (architecte, paysagiste, entreprise)</Label>
                     </div>
                   </RadioGroup>
                 </div>
@@ -297,20 +285,11 @@ const QuoteForm = () => {
                   <Label className="text-lg font-semibold text-gray-900 mb-4 block">Objectif prioritaire :</Label>
                   <RadioGroup
                     value={formData.objective}
-                    onValueChange={(value) => handleInputChange("objective", value)}
+                    onValueChange={(v) => handleInputChange("objective", v)}
                     className="space-y-3"
                   >
-                    {[
-                      "Intimité totale",
-                      "Occultation partielle",
-                      "Brise-vent",
-                      "Décoratif",
-                      "Technique (cache clim/PAC)",
-                    ].map((objective) => (
-                      <div
-                        key={objective}
-                        className="flex items-center space-x-3 p-4 border border-gray-200 rounded-xl hover:border-brand-green transition-colors"
-                      >
+                    {["Intimité totale", "Occultation partielle", "Brise-vent", "Décoratif", "Technique (cache clim/PAC)"].map((objective) => (
+                      <div key={objective} className="flex items-center space-x-3 p-4 border border-gray-200 rounded-xl hover:border-brand-green transition-colors">
                         <RadioGroupItem value={objective.toLowerCase()} id={objective} />
                         <Label htmlFor={objective} className="flex-1 cursor-pointer">{objective}</Label>
                       </div>
@@ -319,10 +298,8 @@ const QuoteForm = () => {
                 </div>
 
                 <div>
-                  <Label htmlFor="timeline" className="text-lg font-semibold text-gray-900 mb-4 block">
-                    Délais souhaités :
-                  </Label>
-                  <Select value={formData.timeline} onValueChange={(value) => handleInputChange("timeline", value)}>
+                  <Label htmlFor="timeline" className="text-lg font-semibold text-gray-900 mb-4 block">Délais souhaités :</Label>
+                  <Select value={formData.timeline} onValueChange={(v) => handleInputChange("timeline", v)}>
                     <SelectTrigger className="h-14 text-lg border-gray-300">
                       <SelectValue placeholder="Sélectionnez vos délais" />
                     </SelectTrigger>
@@ -342,9 +319,7 @@ const QuoteForm = () => {
               <div className="space-y-8">
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <Label htmlFor="totalLength" className="text-lg font-semibold text-gray-900 mb-4 block">
-                      Longueur totale (mètres) :
-                    </Label>
+                    <Label htmlFor="totalLength" className="text-lg font-semibold text-gray-900 mb-4 block">Longueur totale (mètres) :</Label>
                     <Input
                       id="totalLength"
                       name="totalLength"
@@ -360,10 +335,8 @@ const QuoteForm = () => {
                   </div>
 
                   <div>
-                    <Label htmlFor="height" className="text-lg font-semibold text-gray-900 mb-4 block">
-                      Hauteur souhaitée :
-                    </Label>
-                    <Select value={formData.height} onValueChange={(value) => handleInputChange("height", value)}>
+                    <Label htmlFor="height" className="text-lg font-semibold text-gray-900 mb-4 block">Hauteur souhaitée :</Label>
+                    <Select value={formData.height} onValueChange={(v) => handleInputChange("height", v)}>
                       <SelectTrigger className="h-14 text-lg border-gray-300">
                         <SelectValue placeholder="Sélectionnez la hauteur" />
                       </SelectTrigger>
@@ -383,35 +356,23 @@ const QuoteForm = () => {
                     <Label className="text-lg font-semibold text-gray-900">Type de fixation :</Label>
                     <TooltipProvider>
                       <Tooltip>
-                        <TooltipTrigger asChild>
-                          <Info className="w-5 h-5 text-gray-400 hover:text-gray-600 cursor-help" />
-                        </TooltipTrigger>
+                        <TooltipTrigger asChild><Info className="w-5 h-5 text-gray-400 hover:text-gray-600 cursor-help" /></TooltipTrigger>
                         <TooltipContent className="max-w-sm p-4">
                           <div className="space-y-3">
                             <div>
                               <p className="font-semibold text-sm">À sceller :</p>
-                              <p className="text-xs">
-                                Il faut creuser et réaliser un petit socle en béton (point d'ancrage) avant d'y sceller le poteau.
-                                Solution robuste et durable.
-                              </p>
+                              <p className="text-xs">Il faut creuser et réaliser un petit socle en béton (point d'ancrage) avant d'y sceller le poteau. Solution robuste et durable.</p>
                             </div>
                             <div>
                               <p className="font-semibold text-sm">Plaque de base (PDB) :</p>
-                              <p className="text-xs">
-                                Le poteau se fixe sur une plaque métallique vissée sur une dalle béton existante.
-                                Plus simple et rapide si vous avez déjà une dalle.
-                              </p>
+                              <p className="text-xs">Le poteau se fixe sur une plaque métallique vissée sur une dalle béton existante. Plus simple et rapide si vous avez déjà une dalle.</p>
                             </div>
                           </div>
                         </TooltipContent>
                       </Tooltip>
                     </TooltipProvider>
                   </div>
-                  <RadioGroup
-                    value={formData.fixationType}
-                    onValueChange={(value) => handleInputChange("fixationType", value)}
-                    className="space-y-3"
-                  >
+                  <RadioGroup value={formData.fixationType} onValueChange={(v) => handleInputChange("fixationType", v)} className="space-y-3">
                     <div className="flex items-center space-x-3 p-4 border border-gray-200 rounded-xl hover:border-brand-green transition-colors">
                       <RadioGroupItem value="sceller" id="fixation-sceller" />
                       <Label htmlFor="fixation-sceller" className="flex-1 cursor-pointer">À sceller</Label>
@@ -430,79 +391,28 @@ const QuoteForm = () => {
               <div className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <Label htmlFor="firstName" className="text-lg font-semibold text-gray-900 mb-2 block">
-                      Prénom *
-                    </Label>
-                    <Input
-                      id="firstName"
-                      name="firstName"
-                      value={formData.firstName}
-                      onChange={(e) => handleInputChange("firstName", e.target.value)}
-                      className="h-12 border-gray-300"
-                      required
-                    />
+                    <Label htmlFor="firstName" className="text-lg font-semibold text-gray-900 mb-2 block">Prénom *</Label>
+                    <Input id="firstName" name="firstName" value={formData.firstName} onChange={(e) => handleInputChange("firstName", e.target.value)} className="h-12 border-gray-300" required />
                   </div>
-
                   <div>
-                    <Label htmlFor="lastName" className="text-lg font-semibold text-gray-900 mb-2 block">
-                      Nom *
-                    </Label>
-                    <Input
-                      id="lastName"
-                      name="lastName"
-                      value={formData.lastName}
-                      onChange={(e) => handleInputChange("lastName", e.target.value)}
-                      className="h-12 border-gray-300"
-                      required
-                    />
+                    <Label htmlFor="lastName" className="text-lg font-semibold text-gray-900 mb-2 block">Nom *</Label>
+                    <Input id="lastName" name="lastName" value={formData.lastName} onChange={(e) => handleInputChange("lastName", e.target.value)} className="h-12 border-gray-300" required />
                   </div>
                 </div>
 
                 <div>
-                  <Label htmlFor="postalCode" className="text-lg font-semibold text-gray-900 mb-2 block">
-                    Code postal *
-                  </Label>
-                  <Input
-                    id="postalCode"
-                    name="postalCode"
-                    value={formData.postalCode}
-                    onChange={(e) => handleInputChange("postalCode", e.target.value)}
-                    placeholder="Ex: 1000"
-                    className="h-12 border-gray-300"
-                    required
-                  />
+                  <Label htmlFor="postalCode" className="text-lg font-semibold text-gray-900 mb-2 block">Code postal *</Label>
+                  <Input id="postalCode" name="postalCode" value={formData.postalCode} onChange={(e) => handleInputChange("postalCode", e.target.value)} placeholder="Ex: 1000" className="h-12 border-gray-300" required />
                 </div>
 
                 <div>
-                  <Label htmlFor="phone" className="text-lg font-semibold text-gray-900 mb-2 block">
-                    Téléphone *
-                  </Label>
-                  <Input
-                    id="phone"
-                    name="phone"
-                    type="tel"
-                    value={formData.phone}
-                    onChange={(e) => handleInputChange("phone", e.target.value)}
-                    placeholder="+41 XX XXX XX XX"
-                    className="h-12 border-gray-300"
-                    required
-                  />
+                  <Label htmlFor="phone" className="text-lg font-semibold text-gray-900 mb-2 block">Téléphone *</Label>
+                  <Input id="phone" name="phone" type="tel" value={formData.phone} onChange={(e) => handleInputChange("phone", e.target.value)} placeholder="+41 XX XXX XX XX" className="h-12 border-gray-300" required />
                 </div>
 
                 <div>
-                  <Label htmlFor="email" className="text-lg font-semibold text-gray-900 mb-2 block">
-                    E-mail *
-                  </Label>
-                  <Input
-                    id="email"
-                    name="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) => handleInputChange("email", e.target.value)}
-                    placeholder="votre@email.ch"
-                    className="h-12 border-gray-300"
-                    required
-                  />
+                  <Label htmlFor="email" className="text-lg font-semibold text-gray-900 mb-2 block">E-mail *</Label>
+                  <Input id="email" name="email" type="email" value={formData.email} onChange={(e) => handleInputChange("email", e.target.value)} placeholder="votre@email.ch" className="h-12 border-gray-300" required />
                 </div>
               </div>
             )}
@@ -512,50 +422,22 @@ const QuoteForm = () => {
               {currentStep < 3 ? (
                 <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
                   {currentStep > 1 ? (
-                    <Button
-                      type="button"
-                      onClick={prevStep}
-                      variant="outline"
-                      className="flex items-center space-x-2 w-full sm:w-auto order-2 sm:order-1"
-                    >
-                      <ChevronLeft className="w-4 h-4" />
-                      <span>Précédent</span>
+                    <Button type="button" onClick={prevStep} variant="outline" className="flex items-center space-x-2 w-full sm:w-auto order-2 sm:order-1">
+                      <ChevronLeft className="w-4 h-4" /><span>Précédent</span>
                     </Button>
-                  ) : (
-                    <div className="hidden sm:block" />
-                  )}
+                  ) : (<div className="hidden sm:block" />)}
 
-                  <Button
-                    type="button"
-                    onClick={nextStep}
-                    disabled={!isStepValid(currentStep)}
-                    className="btn-primary flex items-center justify-center space-x-2 w-full sm:w-auto order-1 sm:order-2"
-                    data-gtm="form_step_next"
-                  >
-                    <span>Suivant</span>
-                    <ChevronRight className="w-4 h-4" />
+                  <Button type="button" onClick={nextStep} disabled={!isStepValid(currentStep)} className="btn-primary flex items-center justify-center space-x-2 w-full sm:w-auto order-1 sm:order-2" data-gtm="form_step_next">
+                    <span>Suivant</span><ChevronRight className="w-4 h-4" />
                   </Button>
                 </div>
               ) : (
                 <div className="flex flex-col sm:flex-row gap-4 sm:justify-between sm:items-center">
-                  <Button
-                    type="button"
-                    onClick={prevStep}
-                    variant="outline"
-                    className="flex items-center justify-center space-x-2 w-full sm:w-auto order-2 sm:order-1"
-                  >
-                    <ChevronLeft className="w-4 h-4" />
-                    <span>Précédent</span>
+                  <Button type="button" onClick={prevStep} variant="outline" className="flex items-center justify-center space-x-2 w-full sm:w-auto order-2 sm:order-1">
+                    <ChevronLeft className="w-4 h-4" /><span>Précédent</span>
                   </Button>
-
-                  <Button
-                    type="submit"
-                    disabled={!isStepValid(3)}
-                    className="btn-primary flex items-center justify-center space-x-2 w-full sm:w-auto order-1 sm:order-2"
-                    data-gtm="lead_submit"
-                  >
-                    <span>Recevoir mon devis</span>
-                    <ChevronRight className="w-4 h-4" />
+                  <Button type="submit" disabled={!isStepValid(3)} className="btn-primary flex items-center justify-center space-x-2 w-full sm:w-auto order-1 sm:order-2" data-gtm="lead_submit">
+                    <span>Recevoir mon devis</span><ChevronRight className="w-4 h-4" />
                   </Button>
                 </div>
               )}
