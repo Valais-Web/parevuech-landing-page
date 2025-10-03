@@ -1,4 +1,4 @@
-# Landing Page Happy Booth
+# Landing Page Pare-vue.ch
 
 ## Project info
 
