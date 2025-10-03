@@ -13,9 +13,8 @@
     <meta property="og:title" content="Pare-vue aluminium sur mesure Suisse romande" />
     <meta property="og:description" content="Intimité et design : vos pare-vues aluminium sur mesure. Devis gratuit en ligne." />
     <meta property="og:type" content="website" />
-
     <meta name="twitter:card" content="summary_large_image" />
-    
+
     <!-- GTM Container -->
     <script>
       (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -24,7 +23,7 @@
       'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
       })(window,document,'script','dataLayer','GTM-WTS7WRJX');
     </script>
-    
+
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">
     {
@@ -32,7 +31,7 @@
       "@type": "FAQPage",
       "mainEntity": [
         {
-          "@type": "Question", 
+          "@type": "Question",
           "name": "Comment entretenir l'aluminium thermolaqué ?",
           "acceptedAnswer": {
             "@type": "Answer",
@@ -41,7 +40,7 @@
         },
         {
           "@type": "Question",
-          "name": "Quelle garantie s'applique ?", 
+          "name": "Quelle garantie s'applique ?",
           "acceptedAnswer": {
             "@type": "Answer",
             "text": "Garantie fabricant sur structure et laquage selon les conditions en vigueur."
@@ -51,14 +50,14 @@
           "@type": "Question",
           "name": "Quel délai moyen ?",
           "acceptedAnswer": {
-            "@type": "Answer", 
+            "@type": "Answer",
             "text": "Environ 7 semaines entre commande validée et mise à disposition."
           }
         }
       ]
     }
     </script>
-    
+
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -85,34 +84,37 @@
   <body>
     <!-- GTM noscript -->
     <noscript>
-      <iframe 
+      <iframe
         src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
-        height="0" 
-        width="0" 
+        height="0"
+        width="0"
         style="display:none;visibility:hidden">
       </iframe>
     </noscript>
 
-    <!-- Hidden Netlify form for build-time detection -->
+    <!-- 🔒 Hidden Netlify form for build-time detection (schéma complet) -->
     <form name="quote-form" netlify data-netlify="true" netlify-honeypot="bot-field" hidden>
       <input type="hidden" name="form-name" value="quote-form" />
-      <input type="text" name="clientType" />
-      <input type="text" name="productType" />
-      <input type="text" name="objective" />
-      <input type="text" name="timeline" />
-      <input type="text" name="totalLength" />
-      <input type="text" name="height" />
-      <input type="text" name="fixationType" />
-      <input type="text" name="postalCode" />
-      <input type="text" name="firstName" />
-      <input type="text" name="lastName" />
-      <input type="text" name="phone" />
-      <input type="email" name="email" />
-      <input type="text" name="estimatedPrice" />
-      <input type="text" name="priceRange" />
-      <input type="text" name="submittedAt" />
-      <input type="text" name="gclid" />
-      <input type="text" name="bot-field" />
+      <!-- Tous les champs EXACTEMENT comme envoyés par QuoteForm.tsx -->
+      <input name="gclid" />
+      <input name="clientType" />
+      <input name="productType" />
+      <input name="objective" />
+      <input name="timeline" />
+      <input name="totalLength" />
+      <input name="height" />
+      <input name="fixationType" />
+      <input name="postalCode" />
+      <input name="firstName" />
+      <input name="lastName" />
+      <input name="phone" />
+      <input name="email" />
+      <!-- Champs calculés -->
+      <input name="estimatedPrice" />
+      <input name="priceRange" />
+      <input name="submittedAt" />
+      <!-- Honeypot -->
+      <input name="bot-field" />
     </form>
 
     <div id="root"></div>
