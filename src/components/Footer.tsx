@@ -23,6 +23,17 @@ const Footer = () => {
             <p className="text-gray-400 text-sm">
               © {new Date().getFullYear()} Pare-Vue.ch — Tous droits réservés.
             </p>
+            <p className="text-gray-500 text-xs mt-2">
+              Site web conçu par{' '}
+              <a 
+                href="https://valaisweb.ch" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="hover:text-gray-400 transition-colors"
+              >
+                Valais Web
+              </a>
+            </p>
           </div>
         </div>
       </div>
