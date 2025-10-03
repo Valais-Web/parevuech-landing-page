@@ -1,3 +1,5 @@
+import valaisWebLogo from "@/assets/logo-valais-web.png";
+
 const Footer = () => {
   return (
     <footer className="bg-gray-900 text-white py-12">
@@ -20,8 +22,24 @@ const Footer = () => {
           </div>
           
           <div className="mt-8 pt-8 border-t border-gray-700">
-            <p className="text-gray-400 text-sm">
-              © {new Date().getFullYear()} Pare-Vue.ch — Tous droits réservés.
+            <p className="text-gray-400 text-sm flex items-center justify-center gap-2 flex-wrap">
+              <span>© {new Date().getFullYear()} Pare-Vue.ch — Tous droits réservés.</span>
+              <span>•</span>
+              <div>
+                <a 
+                  href="https://valaisweb.ch" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="hover:opacity-80 transition-opacity inline-flex items-center gap-2"
+                >
+                  <span>Site web conçu par</span>
+                  <img 
+                    src={valaisWebLogo} 
+                    alt="Valais Web" 
+                    className="h-6 w-auto"
+                  />
+                </a>
+              </div>
             </p>
           </div>
         </div>
