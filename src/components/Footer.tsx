@@ -36,7 +36,7 @@ const Footer = () => {
                   <img 
                     src={valaisWebLogo} 
                     alt="Valais Web" 
-                    className="h-4 w-auto"
+                    className="h-6 w-auto"
                   />
                 </a>
               </span>
