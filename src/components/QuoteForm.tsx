@@ -10,89 +10,87 @@ import { ChevronLeft, ChevronRight, CheckCircle2, Info } from "lucide-react";
 // Pricing per linear meter based on height and fixation type
 const PRICES_PER_ML = {
   "90": {
-    "sceller": { min: 449.17, max: 605.00 },
-    "pdb": { min: 472.00, max: 635.25 }
+    "sceller": { min: 449.17, max: 605.0 },
+    "pdb": { min: 472.0, max: 635.25 },
   },
   "110": {
     "sceller": { min: 563.75, max: 763.31 },
-    "pdb": { min: 591.25, max: 796.58 }
+    "pdb": { min: 591.25, max: 796.58 },
   },
   "145": {
     "sceller": { min: 609.58, max: 766.33 },
-    "pdb": { min: 637.08, max: 882.29 }
+    "pdb": { min: 637.08, max: 882.29 },
   },
   "180": {
     "sceller": { min: 866.25, max: 1241.62 },
-    "pdb": { min: 879.38, max: 1256.06 }
-  }
+    "pdb": { min: 879.38, max: 1256.06 },
+  },
 };
 
 const QuoteForm = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [estimation, setEstimation] = useState(0);
-  
+
   const [formData, setFormData] = useState({
     // Step 1 - Project
-    clientType: '',
-    productType: 'pare-vue',
-    objective: '',
-    timeline: '',
-    
+    clientType: "",
+    productType: "pare-vue",
+    objective: "",
+    timeline: "",
+
     // Step 2 - Dimensions
-    totalLength: '',
-    height: '',
-    fixationType: '',
-    
+    totalLength: "",
+    height: "",
+    fixationType: "",
+
     // Step 3 - Contact
-    postalCode: '',
-    firstName: '',
-    lastName: '',
-    phone: '',
-    email: '',
-    
+    postalCode: "",
+    firstName: "",
+    lastName: "",
+    phone: "",
+    email: "",
+
     // Tracking
-    gclid: new URLSearchParams(window.location.search).get('gclid') || ''
+    gclid: new URLSearchParams(window.location.search).get("gclid") || "",
   });
 
   const calculateEstimation = () => {
     const length = parseFloat(formData.totalLength) || 0;
-    const height = formData.height || '1800';
-    const fixationType = formData.fixationType || 'sceller';
-    
-    // Special handling for custom heights (sur mesure)
-    if (height === 'autre') {
-      const minPricing = PRICES_PER_ML['90']?.[fixationType];
-      const maxPricing = PRICES_PER_ML['180']?.[fixationType];
-      
+    const height = formData.height || "1800";
+    const fixationType = formData.fixationType || "sceller";
+
+    // Custom heights
+    if (height === "autre") {
+      const minPricing = PRICES_PER_ML["90"]?.[fixationType];
+      const maxPricing = PRICES_PER_ML["180"]?.[fixationType];
+
       if (!minPricing || !maxPricing) {
         return { estimatedPrice: 0, lowerBound: 0, upperBound: 0 };
       }
-      
-      // Apply +10% to both min and max prices for custom heights
+
+      // +10% pour le sur-mesure
       const lowerBound = Math.round(length * minPricing.min * 1.1);
       const upperBound = Math.round(length * maxPricing.max * 1.1);
       const estimatedPrice = Math.round((lowerBound + upperBound) / 2);
-      
+
       return { estimatedPrice, lowerBound, upperBound };
     }
-    
-    // Map height values to pricing keys for standard heights
-    const heightKey = height === '900' ? '90' : 
-                     height === '1100' ? '110' : 
-                     height === '1450' ? '145' : '180';
-    
-    // Get pricing for the specific height and fixation type
+
+    // Map heights
+    const heightKey =
+      height === "900" ? "90" : height === "1100" ? "110" : height === "1450" ? "145" : "180";
+
     const pricing = PRICES_PER_ML[heightKey]?.[fixationType];
-    
+
     if (!pricing) {
       return { estimatedPrice: 0, lowerBound: 0, upperBound: 0 };
     }
-    
+
     const lowerBound = Math.round(length * pricing.min);
     const upperBound = Math.round(length * pricing.max);
     const estimatedPrice = Math.round((lowerBound + upperBound) / 2);
-    
+
     return { estimatedPrice, lowerBound, upperBound };
   };
 
@@ -102,47 +100,38 @@ const QuoteForm = () => {
   };
 
   const nextStep = () => {
-    // Send GTM event
-    if (typeof window !== 'undefined' && window.dataLayer) {
-      window.dataLayer.push({
-        event: 'form_step_next',
+    if (typeof window !== "undefined" && (window as any).dataLayer) {
+      (window as any).dataLayer.push({
+        event: "form_step_next",
         form_step: currentStep,
-        form_name: 'quote_form'
+        form_name: "quote_form",
       });
     }
-    
-    setCurrentStep(prev => prev + 1);
+    setCurrentStep((prev) => prev + 1);
   };
 
-  const prevStep = () => {
-    setCurrentStep(prev => prev - 1);
-  };
+  const prevStep = () => setCurrentStep((prev) => prev - 1);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  // 🔧 Sérialiser le FORM DOM (FormData -> URLSearchParams)
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
-    const { estimatedPrice, lowerBound, upperBound } = calculateEstimation();
-    
-    // Prepare data for submission
-    const submissionData = {
-      ...formData,
-      estimatedPrice,
-      priceRange: `${lowerBound} - ${upperBound} CHF`,
-      submittedAt: new Date().toISOString()
-    };
 
-    // Send to dataLayer for GTM
-    if (typeof window !== 'undefined' && window.dataLayer) {
-      window.dataLayer.push({
-        event: 'lead_submit',
-        form_name: 'quote_form',
+    const { estimatedPrice, lowerBound, upperBound } = calculateEstimation();
+
+    // Push GTM (facultatif)
+    if (typeof window !== "undefined" && (window as any).dataLayer) {
+      (window as any).dataLayer.push({
+        event: "lead_submit",
+        form_name: "quote_form",
         client_type: formData.clientType,
         product_type: formData.productType,
         objective: formData.objective,
         timeline: formData.timeline,
         estimated_price: estimatedPrice,
         price_range: `${lowerBound} - ${upperBound} CHF`,
-        surface_m2: (parseFloat(formData.totalLength) || 0) * ((parseInt(formData.height) || 1800) / 1000),
+        surface_m2:
+          (parseFloat(formData.totalLength) || 0) *
+          ((parseInt(formData.height) || 1800) / 1000),
         fixation_type: formData.fixationType,
         height: formData.height,
         total_length: formData.totalLength,
@@ -151,52 +140,40 @@ const QuoteForm = () => {
         last_name: formData.lastName,
         phone: formData.phone,
         email: formData.email,
-        gclid: formData.gclid
+        gclid: formData.gclid,
       });
     }
 
-    // This will be caught by Netlify Forms
     try {
-      // Build Netlify payload using URL-encoded body per docs
-      const payload = {
-        'form-name': 'quote-form',
-        gclid: formData.gclid || '',
-        clientType: formData.clientType || '',
-        productType: formData.productType || '',
-        objective: formData.objective || '',
-        timeline: formData.timeline || '',
-        totalLength: formData.totalLength || '',
-        height: formData.height || '',
-        fixationType: formData.fixationType || '',
-        postalCode: formData.postalCode || '',
-        firstName: formData.firstName || '',
-        lastName: formData.lastName || '',
-        phone: formData.phone || '',
-        email: formData.email || '',
-        estimatedPrice: String(estimatedPrice),
-        priceRange: `${lowerBound} - ${upperBound} CHF`,
-        submittedAt: new Date().toISOString(),
-      } as Record<string, string>;
+      const formEl = e.currentTarget;
 
-      const response = await fetch('/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(payload).toString(),
+      // ⚠️ On met à jour/garantit les champs calculés dans les inputs cachés
+      const setHidden = (name: string, value: string) => {
+        const el = formEl.querySelector(`input[name="${name}"]`) as HTMLInputElement | null;
+        if (el) el.value = value;
+      };
+      setHidden("estimatedPrice", String(estimatedPrice));
+      setHidden("priceRange", `${lowerBound} - ${upperBound} CHF`);
+      setHidden("submittedAt", new Date().toISOString());
+
+      // ✅ Sérialisation exacte des champs présents dans le DOM
+      const fd = new FormData(formEl);
+      const body = new URLSearchParams(fd as any).toString();
+
+      const response = await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body,
       });
 
-
-      // Treat 2xx and 3xx as success (Netlify may respond with a redirect)
-      if (response.ok || (response.status >= 300 && response.status < 400)) {
-        setEstimation(estimatedPrice);
-        setIsSubmitted(true);
-      } else {
-        console.warn('Form submission non-OK:', response.status, response.statusText);
-        setEstimation(estimatedPrice);
-        setIsSubmitted(true);
+      // 2xx/3xx = OK pour Netlify
+      setEstimation(estimatedPrice);
+      setIsSubmitted(true);
+      if (!response.ok && !(response.status >= 300 && response.status < 400)) {
+        console.warn("Form submission non-OK:", response.status, response.statusText);
       }
     } catch (error) {
-      console.error('Form submission error:', error);
-      // Show success state to the user even if AJAX fails (form still detected by Netlify)
+      console.error("Form submission error:", error);
       setEstimation(estimatedPrice);
       setIsSubmitted(true);
     }
@@ -205,11 +182,17 @@ const QuoteForm = () => {
   const isStepValid = (step: number) => {
     switch (step) {
       case 1:
-        return formData.clientType && formData.objective && formData.timeline;
+        return !!(formData.clientType && formData.objective && formData.timeline);
       case 2:
-        return formData.totalLength && formData.height && formData.fixationType;
+        return !!(formData.totalLength && formData.height && formData.fixationType);
       case 3:
-        return formData.postalCode && formData.firstName && formData.lastName && formData.email && formData.phone;
+        return !!(
+          formData.postalCode &&
+          formData.firstName &&
+          formData.lastName &&
+          formData.email &&
+          formData.phone
+        );
       default:
         return false;
     }
@@ -217,42 +200,33 @@ const QuoteForm = () => {
 
   if (isSubmitted) {
     const { lowerBound, upperBound } = calculateEstimation();
-    
+
     return (
       <section id="devis" className="py-20 bg-gradient-to-br from-brand-cream/30 to-white">
         <div className="container mx-auto px-6">
           <div className="max-w-2xl mx-auto text-center">
             <div className="bg-white rounded-3xl p-12 shadow-2xl fade-in-up">
               <CheckCircle2 className="w-20 h-20 text-green-500 mx-auto mb-6" />
-              
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">
-                Merci pour votre demande !
-              </h2>
-              
+              <h2 className="text-3xl font-bold text-gray-900 mb-6">Merci pour votre demande !</h2>
               <div className="bg-brand-cream rounded-2xl p-6 mb-6">
-                <p className="text-lg font-bold text-brand-green mb-2">
-                  Votre estimation indicative :
-                </p>
+                <p className="text-lg font-bold text-brand-green mb-2">Votre estimation indicative :</p>
                 <p className="text-3xl font-bold text-gray-900">
                   {lowerBound.toLocaleString()} - {upperBound.toLocaleString()} CHF
                 </p>
-                <p className="text-sm text-gray-600 mt-2">
-                  *Estimation indicative basée sur vos données
+                <p className="text-sm text-gray-600 mt-2">*Estimation indicative basée sur vos données</p>
+              </div>
+              <p className="text-gray-700 mb-6 leading-relaxed">
+                Votre estimation et notre catalogue arrivent dans votre boîte e-mail. Un spécialiste vous
+                recontactera dans les plus brefs délais pour affiner votre projet et organiser l'installation
+                professionnelle.
+              </p>
+              <div className="bg-gray-50 rounded-xl p-4 text-sm text-gray-600">
+                <p>
+                  <strong>Service complet inclus :</strong> Installation professionnelle disponible dans toute la
+                  Suisse romande. Le prix final sera validé après vérification technique et choix définitifs
+                  (motifs, ancrages, environnement).
                 </p>
               </div>
-              
-                <p className="text-gray-700 mb-6 leading-relaxed">
-                  Votre estimation et notre catalogue arrivent dans votre boîte e-mail. 
-                  Un spécialiste vous recontactera dans les plus brefs délais pour affiner votre projet 
-                  et organiser l'installation professionnelle.
-                </p>
-              
-                <div className="bg-gray-50 rounded-xl p-4 text-sm text-gray-600">
-                  <p>
-                    <strong>Service complet inclus :</strong> Installation professionnelle disponible dans toute la Suisse romande. 
-                    Le prix final sera validé après vérification technique et choix définitifs (motifs, ancrages, environnement).
-                  </p>
-                </div>
             </div>
           </div>
         </div>
@@ -265,28 +239,28 @@ const QuoteForm = () => {
       <div className="container mx-auto px-6">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12 fade-in-up">
-            <h2 className="text-4xl font-bold text-gray-900 mb-6">
-              Obtenir mon devis personnalisé
-            </h2>
-            <p className="text-xl text-gray-600">
-              Quelques informations pour une estimation précise et immédiate
-            </p>
+            <h2 className="text-4xl font-bold text-gray-900 mb-6">Obtenir mon devis personnalisé</h2>
+            <p className="text-xl text-gray-600">Quelques informations pour une estimation précise et immédiate</p>
           </div>
 
           {/* Progress Bar */}
           <div className="mb-12 fade-in-up">
             <div className="flex justify-between items-center mb-4">
               {[1, 2, 3].map((step) => (
-                <div key={step} className={`flex items-center ${step < 3 ? 'flex-1' : ''}`}>
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold ${
-                    step <= currentStep ? 'bg-brand-green text-white' : 'bg-gray-200 text-gray-500'
-                  }`}>
+                <div key={step} className={`flex items-center ${step < 3 ? "flex-1" : ""}`}>
+                  <div
+                    className={`w-10 h-10 rounded-full flex items-center justify-center font-bold ${
+                      step <= currentStep ? "bg-brand-green text-white" : "bg-gray-200 text-gray-500"
+                    }`}
+                  >
                     {step}
                   </div>
                   {step < 3 && (
-                    <div className={`flex-1 h-2 mx-4 rounded ${
-                      step < currentStep ? 'bg-brand-green' : 'bg-gray-200'
-                    }`}></div>
+                    <div
+                      className={`flex-1 h-2 mx-4 rounded ${
+                        step < currentStep ? "bg-brand-green" : "bg-gray-200"
+                      }`}
+                    ></div>
                   )}
                 </div>
               ))}
@@ -298,7 +272,7 @@ const QuoteForm = () => {
             </div>
           </div>
 
-          <form 
+          <form
             onSubmit={handleSubmit}
             name="quote-form"
             method="POST"
@@ -308,7 +282,7 @@ const QuoteForm = () => {
             netlify-honeypot="bot-field"
             className="bg-white rounded-3xl p-8 shadow-2xl fade-in-up"
           >
-            {/* Netlify form detection */}
+            {/* Netlify form detection + hidden state mirrors */}
             <input type="hidden" name="form-name" value="quote-form" />
             <input type="hidden" name="gclid" value={formData.gclid} />
             <input type="hidden" name="clientType" value={formData.clientType} />
@@ -323,54 +297,62 @@ const QuoteForm = () => {
             <input type="hidden" name="lastName" value={formData.lastName} />
             <input type="hidden" name="phone" value={formData.phone} />
             <input type="hidden" name="email" value={formData.email} />
+            {/* calculés au submit */}
+            <input type="hidden" name="estimatedPrice" />
+            <input type="hidden" name="priceRange" />
+            <input type="hidden" name="submittedAt" />
+
             <p hidden>
-              <label>Don't fill this out: <input name="bot-field" /></label>
+              <label>
+                Don't fill this out: <input name="bot-field" />
+              </label>
             </p>
 
             {/* Step 1: Project */}
             {currentStep === 1 && (
               <div className="space-y-8" data-gtm="form_start">
                 <div>
-                  <Label className="text-lg font-semibold text-gray-900 mb-4 block">
-                    Vous êtes :
-                  </Label>
-                  <RadioGroup 
-                    value={formData.clientType} 
-                    onValueChange={(value) => handleInputChange('clientType', value)}
+                  <Label className="text-lg font-semibold text-gray-900 mb-4 block">Vous êtes :</Label>
+                  <RadioGroup
+                    value={formData.clientType}
+                    onValueChange={(value) => handleInputChange("clientType", value)}
                     className="space-y-3"
                   >
                     <div className="flex items-center space-x-3 p-4 border border-gray-200 rounded-xl hover:border-brand-green transition-colors">
                       <RadioGroupItem value="particulier" id="particulier" />
-                      <Label htmlFor="particulier" className="flex-1 cursor-pointer">Particulier</Label>
+                      <Label htmlFor="particulier" className="flex-1 cursor-pointer">
+                        Particulier
+                      </Label>
                     </div>
                     <div className="flex items-center space-x-3 p-4 border border-gray-200 rounded-xl hover:border-brand-green transition-colors">
                       <RadioGroupItem value="professionnel" id="professionnel" />
-                      <Label htmlFor="professionnel" className="flex-1 cursor-pointer">Professionnel (architecte, paysagiste, entreprise)</Label>
+                      <Label htmlFor="professionnel" className="flex-1 cursor-pointer">
+                        Professionnel (architecte, paysagiste, entreprise)
+                      </Label>
                     </div>
                   </RadioGroup>
                 </div>
 
                 <div>
-                  <Label className="text-lg font-semibold text-gray-900 mb-4 block">
-                    Objectif prioritaire :
-                  </Label>
-                  <RadioGroup 
-                    value={formData.objective} 
-                    onValueChange={(value) => handleInputChange('objective', value)}
+                  <Label className="text-lg font-semibold text-gray-900 mb-4 block">Objectif prioritaire :</Label>
+                  <RadioGroup
+                    value={formData.objective}
+                    onValueChange={(value) => handleInputChange("objective", value)}
                     className="space-y-3"
                   >
-                    {[
-                      'Intimité totale',
-                      'Occultation partielle', 
-                      'Brise-vent',
-                      'Décoratif',
-                      'Technique (cache clim/PAC)'
-                    ].map((objective) => (
-                      <div key={objective} className="flex items-center space-x-3 p-4 border border-gray-200 rounded-xl hover:border-brand-green transition-colors">
-                        <RadioGroupItem value={objective.toLowerCase()} id={objective} />
-                        <Label htmlFor={objective} className="flex-1 cursor-pointer">{objective}</Label>
-                      </div>
-                    ))}
+                    {["Intimité totale", "Occultation partielle", "Brise-vent", "Décoratif", "Technique (cache clim/PAC)"].map(
+                      (objective) => (
+                        <div
+                          key={objective}
+                          className="flex items-center space-x-3 p-4 border border-gray-200 rounded-xl hover:border-brand-green transition-colors"
+                        >
+                          <RadioGroupItem value={objective.toLowerCase()} id={objective} />
+                          <Label htmlFor={objective} className="flex-1 cursor-pointer">
+                            {objective}
+                          </Label>
+                        </div>
+                      )
+                    )}
                   </RadioGroup>
                 </div>
 
@@ -378,7 +360,7 @@ const QuoteForm = () => {
                   <Label htmlFor="timeline" className="text-lg font-semibold text-gray-900 mb-4 block">
                     Délais souhaités :
                   </Label>
-                  <Select value={formData.timeline} onValueChange={(value) => handleInputChange('timeline', value)}>
+                  <Select value={formData.timeline} onValueChange={(value) => handleInputChange("timeline", value)}>
                     <SelectTrigger className="h-14 text-lg border-gray-300">
                       <SelectValue placeholder="Sélectionnez vos délais" />
                     </SelectTrigger>
@@ -403,12 +385,12 @@ const QuoteForm = () => {
                     </Label>
                     <Input
                       id="totalLength"
-                      name="totalLength"
+                      name="totalLength_visible"
                       type="number"
                       min="0.5"
                       step="0.1"
                       value={formData.totalLength}
-                      onChange={(e) => handleInputChange('totalLength', e.target.value)}
+                      onChange={(e) => handleInputChange("totalLength", e.target.value)}
                       placeholder="Ex: 12.5"
                       className="h-14 text-lg border-gray-300"
                     />
@@ -418,7 +400,7 @@ const QuoteForm = () => {
                     <Label htmlFor="height" className="text-lg font-semibold text-gray-900 mb-4 block">
                       Hauteur souhaitée :
                     </Label>
-                    <Select value={formData.height} onValueChange={(value) => handleInputChange('height', value)}>
+                    <Select value={formData.height} onValueChange={(value) => handleInputChange("height", value)}>
                       <SelectTrigger className="h-14 text-lg border-gray-300">
                         <SelectValue placeholder="Sélectionnez la hauteur" />
                       </SelectTrigger>
@@ -435,9 +417,7 @@ const QuoteForm = () => {
 
                 <div>
                   <div className="flex items-center gap-2 mb-4">
-                    <Label className="text-lg font-semibold text-gray-900">
-                      Type de fixation :
-                    </Label>
+                    <Label className="text-lg font-semibold text-gray-900">Type de fixation :</Label>
                     <TooltipProvider>
                       <Tooltip>
                         <TooltipTrigger asChild>
@@ -447,20 +427,26 @@ const QuoteForm = () => {
                           <div className="space-y-3">
                             <div>
                               <p className="font-semibold text-sm">À sceller :</p>
-                              <p className="text-xs">Il faut creuser et réaliser un petit socle en béton (point d'ancrage) avant d'y sceller le poteau. Solution robuste et durable.</p>
+                              <p className="text-xs">
+                                Il faut creuser et réaliser un petit socle en béton (point d&apos;ancrage) avant d&apos;y
+                                sceller le poteau. Solution robuste et durable.
+                              </p>
                             </div>
                             <div>
                               <p className="font-semibold text-sm">Plaque de base (PDB) :</p>
-                              <p className="text-xs">Le poteau se fixe sur une plaque métallique que l'on visse directement sur un socle en béton déjà existant. Plus simple et rapide si vous avez déjà une dalle béton.</p>
+                              <p className="text-xs">
+                                Le poteau se fixe sur une plaque métallique que l&apos;on visse directement sur un socle en
+                                béton déjà existant. Plus simple et rapide si vous avez déjà une dalle béton.
+                              </p>
                             </div>
                           </div>
                         </TooltipContent>
                       </Tooltip>
                     </TooltipProvider>
                   </div>
-                  <RadioGroup 
-                    value={formData.fixationType} 
-                    onValueChange={(value) => handleInputChange('fixationType', value)}
+                  <RadioGroup
+                    value={formData.fixationType}
+                    onValueChange={(value) => handleInputChange("fixationType", value)}
                     className="space-y-3"
                   >
                     <div className="flex items-center space-x-3 p-4 border border-gray-200 rounded-xl hover:border-brand-green transition-colors">
@@ -477,8 +463,6 @@ const QuoteForm = () => {
                     </div>
                   </RadioGroup>
                 </div>
-
-                {/* Removed real-time estimation - will show only after submission */}
               </div>
             )}
 
@@ -492,9 +476,9 @@ const QuoteForm = () => {
                     </Label>
                     <Input
                       id="firstName"
-                      name="firstName"
+                      name="firstName_visible"
                       value={formData.firstName}
-                      onChange={(e) => handleInputChange('firstName', e.target.value)}
+                      onChange={(e) => handleInputChange("firstName", e.target.value)}
                       className="h-12 border-gray-300"
                       required
                     />
@@ -506,9 +490,9 @@ const QuoteForm = () => {
                     </Label>
                     <Input
                       id="lastName"
-                      name="lastName"
+                      name="lastName_visible"
                       value={formData.lastName}
-                      onChange={(e) => handleInputChange('lastName', e.target.value)}
+                      onChange={(e) => handleInputChange("lastName", e.target.value)}
                       className="h-12 border-gray-300"
                       required
                     />
@@ -521,9 +505,9 @@ const QuoteForm = () => {
                   </Label>
                   <Input
                     id="postalCode"
-                    name="postalCode"
+                    name="postalCode_visible"
                     value={formData.postalCode}
-                    onChange={(e) => handleInputChange('postalCode', e.target.value)}
+                    onChange={(e) => handleInputChange("postalCode", e.target.value)}
                     placeholder="Ex: 1000"
                     className="h-12 border-gray-300"
                     required
@@ -536,10 +520,10 @@ const QuoteForm = () => {
                   </Label>
                   <Input
                     id="phone"
-                    name="phone"
+                    name="phone_visible"
                     type="tel"
                     value={formData.phone}
-                    onChange={(e) => handleInputChange('phone', e.target.value)}
+                    onChange={(e) => handleInputChange("phone", e.target.value)}
                     placeholder="+41 XX XXX XX XX"
                     className="h-12 border-gray-300"
                     required
@@ -552,20 +536,19 @@ const QuoteForm = () => {
                   </Label>
                   <Input
                     id="email"
-                    name="email"
+                    name="email_visible"
                     type="email"
                     value={formData.email}
-                    onChange={(e) => handleInputChange('email', e.target.value)}
+                    onChange={(e) => handleInputChange("email", e.target.value)}
                     placeholder="votre@email.ch"
                     className="h-12 border-gray-300"
                     required
                   />
                 </div>
-
               </div>
             )}
 
-            {/* Navigation Buttons */}
+            {/* Navigation */}
             <div className="mt-12 pt-8 border-t border-gray-200">
               {currentStep < 3 ? (
                 <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
@@ -605,7 +588,7 @@ const QuoteForm = () => {
                     <ChevronLeft className="w-4 h-4" />
                     <span>Précédent</span>
                   </Button>
-                  
+
                   <Button
                     type="submit"
                     disabled={!isStepValid(3)}
