@@ -10,21 +10,21 @@ import { ChevronLeft, ChevronRight, CheckCircle2, Info } from "lucide-react";
 // Pricing per linear meter based on height and fixation type
 const PRICES_PER_ML = {
   "90": {
-    "sceller": { min: 449.17, max: 605.0 },
-    "pdb": { min: 472.0, max: 635.25 },
+    "sceller": { min: 449.17, max: 605.00 },
+    "pdb": { min: 472.00, max: 635.25 }
   },
   "110": {
     "sceller": { min: 563.75, max: 763.31 },
-    "pdb": { min: 591.25, max: 796.58 },
+    "pdb": { min: 591.25, max: 796.58 }
   },
   "145": {
     "sceller": { min: 609.58, max: 766.33 },
-    "pdb": { min: 637.08, max: 882.29 },
+    "pdb": { min: 637.08, max: 882.29 }
   },
   "180": {
     "sceller": { min: 866.25, max: 1241.62 },
-    "pdb": { min: 879.38, max: 1256.06 },
-  },
+    "pdb": { min: 879.38, max: 1256.06 }
+  }
 };
 
 const QuoteForm = () => {
@@ -52,7 +52,7 @@ const QuoteForm = () => {
     email: "",
 
     // Tracking
-    gclid: new URLSearchParams(window.location.search).get("gclid") || "",
+    gclid: new URLSearchParams(window.location.search).get("gclid") || ""
   });
 
   const calculateEstimation = () => {
@@ -60,7 +60,6 @@ const QuoteForm = () => {
     const height = formData.height || "1800";
     const fixationType = formData.fixationType || "sceller";
 
-    // Custom heights
     if (height === "autre") {
       const minPricing = PRICES_PER_ML["90"]?.[fixationType];
       const maxPricing = PRICES_PER_ML["180"]?.[fixationType];
@@ -69,7 +68,6 @@ const QuoteForm = () => {
         return { estimatedPrice: 0, lowerBound: 0, upperBound: 0 };
       }
 
-      // +10% pour le sur-mesure
       const lowerBound = Math.round(length * minPricing.min * 1.1);
       const upperBound = Math.round(length * maxPricing.max * 1.1);
       const estimatedPrice = Math.round((lowerBound + upperBound) / 2);
@@ -77,12 +75,12 @@ const QuoteForm = () => {
       return { estimatedPrice, lowerBound, upperBound };
     }
 
-    // Map heights
     const heightKey =
-      height === "900" ? "90" : height === "1100" ? "110" : height === "1450" ? "145" : "180";
+      height === "900" ? "90" :
+      height === "1100" ? "110" :
+      height === "1450" ? "145" : "180";
 
     const pricing = PRICES_PER_ML[heightKey]?.[fixationType];
-
     if (!pricing) {
       return { estimatedPrice: 0, lowerBound: 0, upperBound: 0 };
     }
@@ -112,65 +110,36 @@ const QuoteForm = () => {
 
   const prevStep = () => setCurrentStep((prev) => prev - 1);
 
-  // 🔧 Sérialiser le FORM DOM (FormData -> URLSearchParams)
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const { estimatedPrice, lowerBound, upperBound } = calculateEstimation();
 
-    // Push GTM (facultatif)
-    if (typeof window !== "undefined" && (window as any).dataLayer) {
-      (window as any).dataLayer.push({
-        event: "lead_submit",
-        form_name: "quote_form",
-        client_type: formData.clientType,
-        product_type: formData.productType,
-        objective: formData.objective,
-        timeline: formData.timeline,
-        estimated_price: estimatedPrice,
-        price_range: `${lowerBound} - ${upperBound} CHF`,
-        surface_m2:
-          (parseFloat(formData.totalLength) || 0) *
-          ((parseInt(formData.height) || 1800) / 1000),
-        fixation_type: formData.fixationType,
-        height: formData.height,
-        total_length: formData.totalLength,
-        postal_code: formData.postalCode,
-        first_name: formData.firstName,
-        last_name: formData.lastName,
-        phone: formData.phone,
-        email: formData.email,
-        gclid: formData.gclid,
-      });
-    }
+    // Met à jour les 3 champs calculés AVANT sérialisation
+    const formEl = e.currentTarget;
+    (formEl.querySelector('input[name="estimatedPrice"]') as HTMLInputElement).value = String(estimatedPrice);
+    (formEl.querySelector('input[name="priceRange"]') as HTMLInputElement).value = `${lowerBound} - ${upperBound} CHF`;
+    (formEl.querySelector('input[name="submittedAt"]') as HTMLInputElement).value = new Date().toISOString();
+
+    // Sérialise le formulaire lui-même (garantit un mapping 1:1 avec l'HTML que Netlify a vu)
+    const fd = new FormData(formEl);
+    const body = new URLSearchParams(fd as any).toString();
 
     try {
-      const formEl = e.currentTarget;
-
-      // ⚠️ On met à jour/garantit les champs calculés dans les inputs cachés
-      const setHidden = (name: string, value: string) => {
-        const el = formEl.querySelector(`input[name="${name}"]`) as HTMLInputElement | null;
-        if (el) el.value = value;
-      };
-      setHidden("estimatedPrice", String(estimatedPrice));
-      setHidden("priceRange", `${lowerBound} - ${upperBound} CHF`);
-      setHidden("submittedAt", new Date().toISOString());
-
-      // ✅ Sérialisation exacte des champs présents dans le DOM
-      const fd = new FormData(formEl);
-      const body = new URLSearchParams(fd as any).toString();
-
       const response = await fetch("/", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body,
       });
 
-      // 2xx/3xx = OK pour Netlify
-      setEstimation(estimatedPrice);
-      setIsSubmitted(true);
-      if (!response.ok && !(response.status >= 300 && response.status < 400)) {
+      // OK pour Netlify si 2xx ou 3xx (redirection)
+      if (response.ok || (response.status >= 300 && response.status < 400)) {
+        setEstimation(estimatedPrice);
+        setIsSubmitted(true);
+      } else {
         console.warn("Form submission non-OK:", response.status, response.statusText);
+        setEstimation(estimatedPrice);
+        setIsSubmitted(true);
       }
     } catch (error) {
       console.error("Form submission error:", error);
@@ -182,17 +151,11 @@ const QuoteForm = () => {
   const isStepValid = (step: number) => {
     switch (step) {
       case 1:
-        return !!(formData.clientType && formData.objective && formData.timeline);
+        return formData.clientType && formData.objective && formData.timeline;
       case 2:
-        return !!(formData.totalLength && formData.height && formData.fixationType);
+        return formData.totalLength && formData.height && formData.fixationType;
       case 3:
-        return !!(
-          formData.postalCode &&
-          formData.firstName &&
-          formData.lastName &&
-          formData.email &&
-          formData.phone
-        );
+        return formData.postalCode && formData.firstName && formData.lastName && formData.email && formData.phone;
       default:
         return false;
     }
@@ -207,24 +170,30 @@ const QuoteForm = () => {
           <div className="max-w-2xl mx-auto text-center">
             <div className="bg-white rounded-3xl p-12 shadow-2xl fade-in-up">
               <CheckCircle2 className="w-20 h-20 text-green-500 mx-auto mb-6" />
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">Merci pour votre demande !</h2>
+
+              <h2 className="text-3xl font-bold text-gray-900 mb-6">
+                Merci pour votre demande !
+              </h2>
+
               <div className="bg-brand-cream rounded-2xl p-6 mb-6">
                 <p className="text-lg font-bold text-brand-green mb-2">Votre estimation indicative :</p>
                 <p className="text-3xl font-bold text-gray-900">
                   {lowerBound.toLocaleString()} - {upperBound.toLocaleString()} CHF
                 </p>
-                <p className="text-sm text-gray-600 mt-2">*Estimation indicative basée sur vos données</p>
+                <p className="text-sm text-gray-600 mt-2">
+                  *Estimation indicative basée sur vos données
+                </p>
               </div>
+
               <p className="text-gray-700 mb-6 leading-relaxed">
-                Votre estimation et notre catalogue arrivent dans votre boîte e-mail. Un spécialiste vous
-                recontactera dans les plus brefs délais pour affiner votre projet et organiser l'installation
-                professionnelle.
+                Votre estimation et notre catalogue arrivent dans votre boîte e-mail.
+                Un spécialiste vous recontactera dans les plus brefs délais.
               </p>
+
               <div className="bg-gray-50 rounded-xl p-4 text-sm text-gray-600">
                 <p>
-                  <strong>Service complet inclus :</strong> Installation professionnelle disponible dans toute la
-                  Suisse romande. Le prix final sera validé après vérification technique et choix définitifs
-                  (motifs, ancrages, environnement).
+                  <strong>Service complet inclus :</strong> Installation professionnelle disponible dans toute la Suisse romande.
+                  Le prix final sera validé après vérification technique et choix définitifs (motifs, ancrages, environnement).
                 </p>
               </div>
             </div>
@@ -243,7 +212,7 @@ const QuoteForm = () => {
             <p className="text-xl text-gray-600">Quelques informations pour une estimation précise et immédiate</p>
           </div>
 
-          {/* Progress Bar */}
+          {/* Progress */}
           <div className="mb-12 fade-in-up">
             <div className="flex justify-between items-center mb-4">
               {[1, 2, 3].map((step) => (
@@ -257,10 +226,8 @@ const QuoteForm = () => {
                   </div>
                   {step < 3 && (
                     <div
-                      className={`flex-1 h-2 mx-4 rounded ${
-                        step < currentStep ? "bg-brand-green" : "bg-gray-200"
-                      }`}
-                    ></div>
+                      className={`flex-1 h-2 mx-4 rounded ${step < currentStep ? "bg-brand-green" : "bg-gray-200"}`}
+                    />
                   )}
                 </div>
               ))}
@@ -282,30 +249,25 @@ const QuoteForm = () => {
             netlify-honeypot="bot-field"
             className="bg-white rounded-3xl p-8 shadow-2xl fade-in-up"
           >
-            {/* Netlify form detection + hidden state mirrors */}
+            {/* Netlify form detection */}
             <input type="hidden" name="form-name" value="quote-form" />
+            {/* Tracking */}
             <input type="hidden" name="gclid" value={formData.gclid} />
+
+            {/* Hidden only for non-native inputs (Radix) and computed fields */}
             <input type="hidden" name="clientType" value={formData.clientType} />
             <input type="hidden" name="productType" value={formData.productType} />
             <input type="hidden" name="objective" value={formData.objective} />
             <input type="hidden" name="timeline" value={formData.timeline} />
-            <input type="hidden" name="totalLength" value={formData.totalLength} />
             <input type="hidden" name="height" value={formData.height} />
             <input type="hidden" name="fixationType" value={formData.fixationType} />
-            <input type="hidden" name="postalCode" value={formData.postalCode} />
-            <input type="hidden" name="firstName" value={formData.firstName} />
-            <input type="hidden" name="lastName" value={formData.lastName} />
-            <input type="hidden" name="phone" value={formData.phone} />
-            <input type="hidden" name="email" value={formData.email} />
-            {/* calculés au submit */}
+            {/* computed */}
             <input type="hidden" name="estimatedPrice" />
             <input type="hidden" name="priceRange" />
             <input type="hidden" name="submittedAt" />
-
+            {/* honeypot */}
             <p hidden>
-              <label>
-                Don't fill this out: <input name="bot-field" />
-              </label>
+              <label>Don't fill this out: <input name="bot-field" /></label>
             </p>
 
             {/* Step 1: Project */}
@@ -320,9 +282,7 @@ const QuoteForm = () => {
                   >
                     <div className="flex items-center space-x-3 p-4 border border-gray-200 rounded-xl hover:border-brand-green transition-colors">
                       <RadioGroupItem value="particulier" id="particulier" />
-                      <Label htmlFor="particulier" className="flex-1 cursor-pointer">
-                        Particulier
-                      </Label>
+                      <Label htmlFor="particulier" className="flex-1 cursor-pointer">Particulier</Label>
                     </div>
                     <div className="flex items-center space-x-3 p-4 border border-gray-200 rounded-xl hover:border-brand-green transition-colors">
                       <RadioGroupItem value="professionnel" id="professionnel" />
@@ -340,19 +300,21 @@ const QuoteForm = () => {
                     onValueChange={(value) => handleInputChange("objective", value)}
                     className="space-y-3"
                   >
-                    {["Intimité totale", "Occultation partielle", "Brise-vent", "Décoratif", "Technique (cache clim/PAC)"].map(
-                      (objective) => (
-                        <div
-                          key={objective}
-                          className="flex items-center space-x-3 p-4 border border-gray-200 rounded-xl hover:border-brand-green transition-colors"
-                        >
-                          <RadioGroupItem value={objective.toLowerCase()} id={objective} />
-                          <Label htmlFor={objective} className="flex-1 cursor-pointer">
-                            {objective}
-                          </Label>
-                        </div>
-                      )
-                    )}
+                    {[
+                      "Intimité totale",
+                      "Occultation partielle",
+                      "Brise-vent",
+                      "Décoratif",
+                      "Technique (cache clim/PAC)",
+                    ].map((objective) => (
+                      <div
+                        key={objective}
+                        className="flex items-center space-x-3 p-4 border border-gray-200 rounded-xl hover:border-brand-green transition-colors"
+                      >
+                        <RadioGroupItem value={objective.toLowerCase()} id={objective} />
+                        <Label htmlFor={objective} className="flex-1 cursor-pointer">{objective}</Label>
+                      </div>
+                    ))}
                   </RadioGroup>
                 </div>
 
@@ -385,7 +347,7 @@ const QuoteForm = () => {
                     </Label>
                     <Input
                       id="totalLength"
-                      name="totalLength_visible"
+                      name="totalLength"
                       type="number"
                       min="0.5"
                       step="0.1"
@@ -393,6 +355,7 @@ const QuoteForm = () => {
                       onChange={(e) => handleInputChange("totalLength", e.target.value)}
                       placeholder="Ex: 12.5"
                       className="h-14 text-lg border-gray-300"
+                      required
                     />
                   </div>
 
@@ -428,15 +391,15 @@ const QuoteForm = () => {
                             <div>
                               <p className="font-semibold text-sm">À sceller :</p>
                               <p className="text-xs">
-                                Il faut creuser et réaliser un petit socle en béton (point d&apos;ancrage) avant d&apos;y
-                                sceller le poteau. Solution robuste et durable.
+                                Il faut creuser et réaliser un petit socle en béton (point d'ancrage) avant d'y sceller le poteau.
+                                Solution robuste et durable.
                               </p>
                             </div>
                             <div>
                               <p className="font-semibold text-sm">Plaque de base (PDB) :</p>
                               <p className="text-xs">
-                                Le poteau se fixe sur une plaque métallique que l&apos;on visse directement sur un socle en
-                                béton déjà existant. Plus simple et rapide si vous avez déjà une dalle béton.
+                                Le poteau se fixe sur une plaque métallique vissée sur une dalle béton existante.
+                                Plus simple et rapide si vous avez déjà une dalle.
                               </p>
                             </div>
                           </div>
@@ -451,15 +414,11 @@ const QuoteForm = () => {
                   >
                     <div className="flex items-center space-x-3 p-4 border border-gray-200 rounded-xl hover:border-brand-green transition-colors">
                       <RadioGroupItem value="sceller" id="fixation-sceller" />
-                      <Label htmlFor="fixation-sceller" className="flex-1 cursor-pointer">
-                        À sceller
-                      </Label>
+                      <Label htmlFor="fixation-sceller" className="flex-1 cursor-pointer">À sceller</Label>
                     </div>
                     <div className="flex items-center space-x-3 p-4 border border-gray-200 rounded-xl hover:border-brand-green transition-colors">
                       <RadioGroupItem value="pdb" id="fixation-pdb" />
-                      <Label htmlFor="fixation-pdb" className="flex-1 cursor-pointer">
-                        Plaque de base (PDB)
-                      </Label>
+                      <Label htmlFor="fixation-pdb" className="flex-1 cursor-pointer">Plaque de base (PDB)</Label>
                     </div>
                   </RadioGroup>
                 </div>
@@ -476,7 +435,7 @@ const QuoteForm = () => {
                     </Label>
                     <Input
                       id="firstName"
-                      name="firstName_visible"
+                      name="firstName"
                       value={formData.firstName}
                       onChange={(e) => handleInputChange("firstName", e.target.value)}
                       className="h-12 border-gray-300"
@@ -490,7 +449,7 @@ const QuoteForm = () => {
                     </Label>
                     <Input
                       id="lastName"
-                      name="lastName_visible"
+                      name="lastName"
                       value={formData.lastName}
                       onChange={(e) => handleInputChange("lastName", e.target.value)}
                       className="h-12 border-gray-300"
@@ -505,7 +464,7 @@ const QuoteForm = () => {
                   </Label>
                   <Input
                     id="postalCode"
-                    name="postalCode_visible"
+                    name="postalCode"
                     value={formData.postalCode}
                     onChange={(e) => handleInputChange("postalCode", e.target.value)}
                     placeholder="Ex: 1000"
@@ -520,7 +479,7 @@ const QuoteForm = () => {
                   </Label>
                   <Input
                     id="phone"
-                    name="phone_visible"
+                    name="phone"
                     type="tel"
                     value={formData.phone}
                     onChange={(e) => handleInputChange("phone", e.target.value)}
@@ -536,7 +495,7 @@ const QuoteForm = () => {
                   </Label>
                   <Input
                     id="email"
-                    name="email_visible"
+                    name="email"
                     type="email"
                     value={formData.email}
                     onChange={(e) => handleInputChange("email", e.target.value)}
@@ -563,7 +522,7 @@ const QuoteForm = () => {
                       <span>Précédent</span>
                     </Button>
                   ) : (
-                    <div className="hidden sm:block"></div>
+                    <div className="hidden sm:block" />
                   )}
 
                   <Button
