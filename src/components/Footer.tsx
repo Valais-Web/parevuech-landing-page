@@ -20,19 +20,20 @@ const Footer = () => {
           </div>
           
           <div className="mt-8 pt-8 border-t border-gray-700">
-            <p className="text-gray-400 text-sm">
-              © {new Date().getFullYear()} Pare-Vue.ch — Tous droits réservés.
-            </p>
-            <p className="text-gray-500 text-xs mt-2">
-              Site web conçu par{' '}
-              <a 
-                href="https://valaisweb.ch" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="hover:text-gray-400 transition-colors"
-              >
-                Valais Web
-              </a>
+            <p className="text-gray-400 text-sm flex items-center justify-center gap-2 flex-wrap">
+              <span>© {new Date().getFullYear()} Pare-Vue.ch — Tous droits réservés.</span>
+              <span>•</span>
+              <span>
+                Site web conçu par{' '}
+                <a 
+                  href="https://valaisweb.ch" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="hover:text-gray-300 transition-colors"
+                >
+                  Valais Web
+                </a>
+              </span>
             </p>
           </div>
         </div>
