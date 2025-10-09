@@ -15,12 +15,12 @@ const CustomDesignColors = () => {
 
   const productTypes = [
     {
-      name: "Pare-vues occultants",
+      name: "Clôtures occultantes",
       description: "Intimité totale, ligne épurée",
       image: "/lovable-uploads/05078bbc-1a12-4c92-b911-7ce684d33557.png"
     },
     {
-      name: "Pare-vues décoratifs", 
+      name: "Clôtures décoratives", 
       description: "Motifs géométriques et végétaux",
       image: "/lovable-uploads/bb703772-bb6f-4038-ab92-019bd456622b.png"
     },
