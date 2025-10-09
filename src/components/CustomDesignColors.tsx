@@ -7,9 +7,9 @@ import productTreillis from "@/assets/product-treillis.png";
 
 const CustomDesignColors = () => {
   const scrollToDevis = () => {
-    const devisSection = document.getElementById('devis');
+    const devisSection = document.getElementById("devis");
     if (devisSection) {
-      devisSection.scrollIntoView({ behavior: 'smooth' });
+      devisSection.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -17,68 +17,66 @@ const CustomDesignColors = () => {
     {
       name: "Pare-vues occultants",
       description: "Intimité totale, ligne épurée",
-      image: "/lovable-uploads/05078bbc-1a12-4c92-b911-7ce684d33557.png"
+      image: "/lovable-uploads/05078bbc-1a12-4c92-b911-7ce684d33557.png",
     },
     {
-      name: "Pare-vues décoratifs", 
+      name: "Pare-vues décoratifs",
       description: "Motifs géométriques et végétaux",
-      image: "/lovable-uploads/bb703772-bb6f-4038-ab92-019bd456622b.png"
+      image: "/lovable-uploads/bb703772-bb6f-4038-ab92-019bd456622b.png",
     },
     {
       name: "Portails & portillons",
-      description: "Coordonnés à vos pare-vues",
-      image: productPortail
+      description: "Coordonnés à vos clôtures",
+      image: productPortail,
     },
     {
       name: "Treillis muraux",
       description: "Support végétation, brise-vue",
-      image: productTreillis
+      image: productTreillis,
     },
     {
       name: "Jardinières & bacs",
       description: "Végétalisation coordonnée",
-      image: productJardiniere
+      image: productJardiniere,
     },
     {
       name: "Luminaires",
       description: "Éclairage décoratif intégré",
-      image: productLuminaire
-    }
+      image: productLuminaire,
+    },
   ];
 
   const features = [
     {
       icon: Ruler,
       title: "Dimensions sur mesure",
-      description: "Hauteurs : 900, 1100, 1450, 1800 mm ou dimensions exactes selon votre projet"
+      description: "Hauteurs : 900, 1100, 1450, 1800 mm ou dimensions exactes selon votre projet",
     },
     {
       icon: Palette,
       title: "23 couleurs RAL + nuancier complet",
-      description: "Teintes standard fine texture, Futura sablées, ou toute couleur RAL personnalisée"
+      description: "Teintes standard fine texture, Futura sablées, ou toute couleur RAL personnalisée",
     },
     {
       icon: Wrench,
       title: "Installation professionnelle incluse",
-      description: "Équipe qualifiée, fixation à sceller ou sur platines, accompagnement complet"
+      description: "Équipe qualifiée, fixation à sceller ou sur platines, accompagnement complet",
     },
     {
       icon: CheckCircle,
       title: "Service clé en main",
-      description: "De la conception à la pose : conseil, fabrication, livraison, installation, garantie"
-    }
+      description: "De la conception à la pose : conseil, fabrication, livraison, installation, garantie",
+    },
   ];
 
   return (
     <section className="py-20 bg-white">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16 fade-in-up">
-          <h2 className="text-4xl font-bold text-gray-900 mb-6">
-            Votre projet, nos solutions sur mesure
-          </h2>
+          <h2 className="text-4xl font-bold text-gray-900 mb-6">Votre projet, nos solutions sur mesure</h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Formats standards pour aller vite, ou dimensions exactes pour votre projet. 
-            Motifs décoratifs au catalogue ou création dédiée. Service complet de A à Z.
+            Formats standards pour aller vite, ou dimensions exactes pour votre projet. Motifs décoratifs au catalogue
+            ou création dédiée. Service complet de A à Z.
           </p>
         </div>
 
@@ -87,13 +85,13 @@ const CustomDesignColors = () => {
           <h3 className="text-2xl font-bold text-gray-900 mb-8 text-center">Découvrez notre gamme complète</h3>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
             {productTypes.map((product, index) => (
-              <div key={product.name} className={`bg-gray-50 p-4 rounded-2xl text-center hover:shadow-lg transition-shadow fade-in-up`} style={{animationDelay: `${index * 0.1}s`}}>
+              <div
+                key={product.name}
+                className={`bg-gray-50 p-4 rounded-2xl text-center hover:shadow-lg transition-shadow fade-in-up`}
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
                 <div className="w-16 h-16 mx-auto mb-3 rounded-xl overflow-hidden bg-white shadow-sm">
-                  <img 
-                    src={product.image} 
-                    alt={product.name}
-                    className="w-full h-full object-cover"
-                  />
+                  <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
                 </div>
                 <h4 className="font-semibold text-sm text-gray-900 mb-1">{product.name}</h4>
                 <p className="text-xs text-gray-600">{product.description}</p>
@@ -107,7 +105,11 @@ const CustomDesignColors = () => {
           {features.map((feature, index) => {
             const IconComponent = feature.icon;
             return (
-              <div key={feature.title} className={`bg-gray-50 p-8 rounded-2xl fade-in-up`} style={{animationDelay: `${index * 0.1}s`}}>
+              <div
+                key={feature.title}
+                className={`bg-gray-50 p-8 rounded-2xl fade-in-up`}
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 bg-brand-cream rounded-full flex items-center justify-center flex-shrink-0">
                     <IconComponent className="w-6 h-6 text-brand-green" />
@@ -129,8 +131,8 @@ const CustomDesignColors = () => {
               Accompagnement personnalisé tout au long de votre projet
             </h3>
             <p className="text-white/90 mb-6 text-lg">
-              Notre équipe vous guide de la conception à l'installation. Conseil technique, 
-              fabrication sur mesure, pose professionnelle : tout est inclus pour votre sérénité.
+              Notre équipe vous guide de la conception à l'installation. Conseil technique, fabrication sur mesure, pose
+              professionnelle : tout est inclus pour votre sérénité.
             </p>
             <div className="flex flex-wrap justify-center gap-4 mb-6">
               <div className="bg-white/10 backdrop-blur-sm text-white px-4 py-2 rounded-full border border-white/20">
@@ -143,7 +145,7 @@ const CustomDesignColors = () => {
                 <span className="text-sm font-medium">✓ Garantie étendue</span>
               </div>
             </div>
-            <Button 
+            <Button
               onClick={scrollToDevis}
               size="lg"
               className="bg-white text-brand-green hover:bg-white/90 text-base sm:text-lg px-6 sm:px-12 py-3 sm:py-4 h-12 sm:h-14 font-semibold w-full sm:w-auto"
