@@ -249,6 +249,7 @@ const QuoteForm = () => {
             <input type="hidden" name="productType" value={formData.productType} />
             <input type="hidden" name="objective" value={formData.objective} />
             <input type="hidden" name="timeline" value={formData.timeline} />
+            <input type="hidden" name="totalLength" value={formData.totalLength} />
             <input type="hidden" name="height" value={formData.height} />
             <input type="hidden" name="fixationType" value={formData.fixationType} />
 
