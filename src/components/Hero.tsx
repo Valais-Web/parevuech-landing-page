@@ -2,25 +2,29 @@ import { Button } from "@/components/ui/button";
 import heroImage from "@/assets/hero-new.webp";
 const Hero = () => {
   const scrollToDevis = () => {
-    const devisSection = document.getElementById('devis');
+    const devisSection = document.getElementById("devis");
     if (devisSection) {
       devisSection.scrollIntoView({
-        behavior: 'smooth'
+        behavior: "smooth",
       });
     }
   };
-  return <section className="relative min-h-[80vh] flex items-center overflow-hidden">
-      <div className="absolute inset-0 bg-cover bg-center" style={{
-      backgroundImage: `url(${heroImage})`
-    }}>
+  return (
+    <section className="relative min-h-[80vh] flex items-center overflow-hidden">
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{
+          backgroundImage: `url(${heroImage})`,
+        }}
+      >
         <div className="absolute inset-0 bg-black/60"></div>
       </div>
 
       <div className="container mx-auto px-6 relative z-10">
         <div className="max-w-4xl text-white fade-in-up">
-
-
-          <h1 className="text-5xl md:text-6xl font-bold leading-tight mb-6">Intimité et design : vos palissades aluminium sur mesure en Suisse romande</h1>
+          <h1 className="text-5xl md:text-6xl font-bold leading-tight mb-6">
+            Intimité et design : vos clôtures en aluminium sur mesure en Suisse romande
+          </h1>
 
           <p className="text-xl md:text-2xl leading-relaxed mb-8 text-white/90">
             Occultez le vis-à-vis, coupez le vent et valorisez votre extérieur avec des panneaux en aluminium 3 mm,
@@ -40,12 +44,18 @@ const Hero = () => {
           </div>
 
           <div className="mb-8">
-            <Button onClick={scrollToDevis} size="lg" data-gtm="cta_devis_click" className="btn-primary text-lg px-12 py-4 h-14 text-lime-50 bg-green-600 hover:bg-green-500">
+            <Button
+              onClick={scrollToDevis}
+              size="lg"
+              data-gtm="cta_devis_click"
+              className="btn-primary text-lg px-12 py-4 h-14 text-lime-50 bg-green-600 hover:bg-green-500"
+            >
               Obtenir mon devis
             </Button>
           </div>
         </div>
       </div>
-    </section>;
+    </section>
+  );
 };
 export default Hero;
