@@ -5,14 +5,18 @@ const Hero = () => {
     const devisSection = document.getElementById("devis");
     if (devisSection) {
       devisSection.scrollIntoView({
-        behavior: "smooth"
+        behavior: "smooth",
       });
     }
   };
-  return <section className="relative min-h-[80vh] flex items-center overflow-hidden">
-      <div className="absolute inset-0 bg-cover bg-center" style={{
-      backgroundImage: `url(${heroImage})`
-    }}>
+  return (
+    <section className="relative min-h-[80vh] flex items-center overflow-hidden">
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{
+          backgroundImage: `url(${heroImage})`,
+        }}
+      >
         <div className="absolute inset-0 bg-black/60"></div>
       </div>
 
@@ -35,7 +39,7 @@ const Hero = () => {
               </div>
               <div>
                 <p className="text-2xl md:text-3xl font-bold text-brand-green">
-                  Dès 350 CHF <span className="text-lg font-medium text-gray-600">HT / mètre</span>
+                  Dès 350 CHF <span className="text-lg font-medium text-gray-600"> / mètre</span>
                 </p>
                 <p className="text-sm text-gray-500">Installation professionnelle incluse</p>
               </div>
@@ -55,12 +59,18 @@ const Hero = () => {
           </div>
 
           <div className="mb-8">
-            <Button onClick={scrollToDevis} size="lg" data-gtm="cta_devis_click" className="btn-primary text-lg px-12 py-4 h-14 text-lime-50 bg-green-600 hover:bg-green-500">
+            <Button
+              onClick={scrollToDevis}
+              size="lg"
+              data-gtm="cta_devis_click"
+              className="btn-primary text-lg px-12 py-4 h-14 text-lime-50 bg-green-600 hover:bg-green-500"
+            >
               Obtenir mon devis
             </Button>
           </div>
         </div>
       </div>
-    </section>;
+    </section>
+  );
 };
 export default Hero;
