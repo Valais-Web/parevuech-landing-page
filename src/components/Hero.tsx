@@ -1,5 +1,7 @@
 import { Button } from "@/components/ui/button";
+import { Check } from "lucide-react";
 import heroImage from "@/assets/hero-new.webp";
+
 const Hero = () => {
   const scrollToDevis = () => {
     const devisSection = document.getElementById("devis");
@@ -9,6 +11,13 @@ const Hero = () => {
       });
     }
   };
+
+  const features = [
+    "Fabrication sur mesure",
+    "Finitions premium",
+    "Service local Suisse romande",
+  ];
+
   return (
     <section className="relative min-h-[80vh] flex items-center overflow-hidden">
       <div
@@ -31,33 +40,15 @@ const Hero = () => {
             découpés au laser et thermolaqués. Plus de modèles, plus de couleurs, plus de sérénité.
           </p>
 
-          {/* Prix mis en évidence */}
+          {/* Prix intégré */}
           <div className="mb-6">
-            <div className="inline-flex items-center gap-3 bg-white/95 backdrop-blur-md px-6 py-4 rounded-2xl shadow-lg border border-white/20">
-              <div className="bg-brand-green text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide">
-                Prix
-              </div>
-              <div>
-                <p className="text-2xl md:text-3xl font-bold text-brand-green">
-                  Dès 350 CHF <span className="text-lg font-medium text-gray-600"> / mètre</span>
-                </p>
-                <p className="text-sm text-gray-500">Installation professionnelle incluse</p>
-              </div>
-            </div>
+            <p className="text-3xl md:text-4xl font-bold text-white">
+              Dès 350 CHF <span className="text-xl font-medium text-white/70">/ mètre linéaire</span>
+            </p>
+            <p className="text-sm text-white/60 mt-1">Installation professionnelle incluse</p>
           </div>
 
-          <div className="flex flex-wrap gap-3 mb-8">
-            <div className="backdrop-blur-sm text-green-900 px-4 py-2 rounded-full border border-green-300 bg-green-100">
-              <span className="text-sm font-medium">Fabrication sur mesure</span>
-            </div>
-            <div className="backdrop-blur-sm text-green-900 px-4 py-2 rounded-full border border-green-300 bg-green-100">
-              <span className="text-sm font-medium">Finitions premium</span>
-            </div>
-            <div className="backdrop-blur-sm text-green-900 px-4 py-2 rounded-full border border-green-300 bg-green-100">
-              <span className="text-sm font-medium">Service local Suisse romande</span>
-            </div>
-          </div>
-
+          {/* CTA Button */}
           <div className="mb-8">
             <Button
               onClick={scrollToDevis}
@@ -68,9 +59,20 @@ const Hero = () => {
               Obtenir mon devis
             </Button>
           </div>
+
+          {/* Features avec checkmarks */}
+          <div className="flex flex-wrap gap-x-6 gap-y-2">
+            {features.map((feature) => (
+              <div key={feature} className="flex items-center gap-2 text-white/80">
+                <Check className="w-5 h-5 text-green-400" />
+                <span className="text-sm font-medium">{feature}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
   );
 };
+
 export default Hero;
