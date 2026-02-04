@@ -19,7 +19,7 @@ const Hero = () => {
   ];
 
   return (
-    <section className="relative min-h-[80vh] flex items-center overflow-hidden">
+    <section className="relative min-h-[80vh] flex items-center overflow-hidden pb-12 md:pb-0">
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{
