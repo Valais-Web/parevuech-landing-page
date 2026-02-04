@@ -81,7 +81,7 @@ const CustomDesignColors = () => {
           
           {/* Grille de prix */}
           <div className="bg-brand-cream/50 rounded-2xl p-6 max-w-xl mx-auto">
-            <h3 className="text-lg font-bold text-gray-900 mb-4">Prix indicatifs au mètre linéaire</h3>
+            <h3 className="text-lg font-bold text-gray-900 mb-4">Prix indicatifs au mètre linéaire <span className="font-normal text-sm text-gray-500">(H = Hauteur)</span></h3>
             <div className="grid grid-cols-2 gap-3 text-left">
               <div className="bg-white rounded-lg p-3 shadow-sm">
                 <span className="text-sm text-gray-600">H 90 cm</span>
