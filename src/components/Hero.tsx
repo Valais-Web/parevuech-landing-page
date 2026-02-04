@@ -32,6 +32,9 @@ const Hero = () => {
           </p>
 
           <div className="flex flex-wrap gap-4 mb-8">
+            <div className="backdrop-blur-sm text-yellow-900 px-4 py-2 rounded-full border border-yellow-400 bg-yellow-100 font-semibold">
+              <span className="text-sm">Dès 350 CHF HT par mètre linéaire</span>
+            </div>
             <div className="backdrop-blur-sm text-green-900 px-4 py-2 rounded-full border border-green-300 bg-green-100">
               <span className="text-sm font-medium">Fabrication sur mesure</span>
             </div>

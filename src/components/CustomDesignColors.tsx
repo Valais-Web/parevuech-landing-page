@@ -74,10 +74,36 @@ const CustomDesignColors = () => {
       <div className="container mx-auto px-6">
         <div className="text-center mb-16 fade-in-up">
           <h2 className="text-4xl font-bold text-gray-900 mb-6">Votre projet, nos solutions sur mesure</h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
             Formats standards pour aller vite, ou dimensions exactes pour votre projet. Motifs décoratifs au catalogue
             ou création dédiée. Service complet de A à Z.
           </p>
+          
+          {/* Grille de prix */}
+          <div className="bg-brand-cream/50 rounded-2xl p-6 max-w-xl mx-auto">
+            <h3 className="text-lg font-bold text-gray-900 mb-4">Prix indicatifs au mètre linéaire</h3>
+            <div className="grid grid-cols-2 gap-3 text-left">
+              <div className="bg-white rounded-lg p-3 shadow-sm">
+                <span className="text-sm text-gray-600">H 90 cm</span>
+                <p className="font-semibold text-brand-green">dès 350.- HT/ml</p>
+              </div>
+              <div className="bg-white rounded-lg p-3 shadow-sm">
+                <span className="text-sm text-gray-600">H 110 cm</span>
+                <p className="font-semibold text-brand-green">dès 435.- HT/ml</p>
+              </div>
+              <div className="bg-white rounded-lg p-3 shadow-sm">
+                <span className="text-sm text-gray-600">H 145 cm</span>
+                <p className="font-semibold text-brand-green">dès 475.- HT/ml</p>
+              </div>
+              <div className="bg-white rounded-lg p-3 shadow-sm">
+                <span className="text-sm text-gray-600">H 180 cm</span>
+                <p className="font-semibold text-brand-green">dès 550.- HT/ml</p>
+              </div>
+            </div>
+            <p className="text-xs text-gray-500 mt-4">
+              *Prix indicatifs, peuvent varier selon le modèle choisi et le type de fixation.
+            </p>
+          </div>
         </div>
 
         {/* Types de produits */}
