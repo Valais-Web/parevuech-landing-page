@@ -39,7 +39,7 @@ const Hero = () => {
               </div>
               <div>
                 <p className="text-2xl md:text-3xl font-bold text-brand-green">
-                  Dès 350 CHF <span className="text-lg font-medium text-gray-600">HT/ml</span>
+                  Dès 350 CHF <span className="text-lg font-medium text-gray-600">HT / mètre linéaire</span>
                 </p>
                 <p className="text-sm text-gray-500">Installation professionnelle incluse</p>
               </div>
