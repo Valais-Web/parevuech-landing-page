@@ -447,6 +447,27 @@ const QuoteForm = () => {
             {/* Step 3: Contact */}
             {currentStep === 3 && (
               <div className="space-y-6">
+                {/* Estimation indicative en haut */}
+                {formData.totalLength && formData.height && formData.fixationType && (
+                  <div className="bg-brand-cream rounded-2xl p-6 mb-6">
+                    <p className="text-lg font-bold text-brand-green mb-2">Votre estimation indicative :</p>
+                    <p className="text-3xl font-bold text-gray-900">
+                      {(() => {
+                        const { lowerBound, upperBound } = calculateEstimation();
+                        return `${lowerBound.toLocaleString()} - ${upperBound.toLocaleString()} CHF`;
+                      })()}
+                    </p>
+                    <p className="text-sm text-gray-600 mt-2">*Estimation basée sur vos dimensions</p>
+                  </div>
+                )}
+
+                {/* Message d'invitation */}
+                <div className="bg-gray-50 rounded-xl p-4 text-center">
+                  <p className="text-gray-700">
+                    Pour recevoir votre <strong>estimation officielle</strong> + <strong>catalogue PDF complet</strong> par e-mail, merci de saisir vos coordonnées.
+                  </p>
+                </div>
+
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <Label htmlFor="firstName" className="text-lg font-semibold text-gray-900 mb-2 block">
@@ -550,7 +571,7 @@ const QuoteForm = () => {
                     className="btn-primary flex items-center justify-center space-x-2 w-full sm:w-auto order-1 sm:order-2"
                     data-gtm="form_step_next"
                   >
-                    <span>Suivant</span>
+                    <span>{currentStep === 2 ? "Calculer mon devis" : "Suivant"}</span>
                     <ChevronRight className="w-4 h-4" />
                   </Button>
                 </div>
