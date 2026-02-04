@@ -8,10 +8,10 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { ChevronLeft, ChevronRight, CheckCircle2, Info } from "lucide-react";
 
 const PRICES_PER_ML = {
-  "90": { sceller: { min: 449.17, max: 605.0 }, pdb: { min: 472.0, max: 635.25 } },
-  "110": { sceller: { min: 563.75, max: 763.31 }, pdb: { min: 591.25, max: 796.58 } },
-  "145": { sceller: { min: 609.58, max: 766.33 }, pdb: { min: 637.08, max: 882.29 } },
-  "180": { sceller: { min: 866.25, max: 1241.62 }, pdb: { min: 879.38, max: 1256.06 } },
+  "90": { sceller: { min: 449.0, max: 550.0 }, pdb: { min: 472.0, max: 577.0 } },
+  "110": { sceller: { min: 563.0, max: 694.0 }, pdb: { min: 591.0, max: 724.0 } },
+  "145": { sceller: { min: 609.0, max: 697.0 }, pdb: { min: 637.0, max: 802.0 } },
+  "180": { sceller: { min: 866.0, max: 1129.0 }, pdb: { min: 879.0, max: 1141.0 } },
 };
 
 // Mapping code technique -> libellé humain (pour Netlify / emails)
@@ -56,8 +56,8 @@ const QuoteForm = () => {
       const minPricing = PRICES_PER_ML["90"]?.[fixationType as "pdb" | "sceller"];
       const maxPricing = PRICES_PER_ML["180"]?.[fixationType as "pdb" | "sceller"];
       if (!minPricing || !maxPricing) return { estimatedPrice: 0, lowerBound: 0, upperBound: 0 };
-      const lowerBound = Math.round(length * minPricing.min * 1.1);
-      const upperBound = Math.round(length * maxPricing.max * 1.1);
+      const lowerBound = Math.round(length * minPricing.min);
+      const upperBound = Math.round(length * maxPricing.max);
       const estimatedPrice = Math.round((lowerBound + upperBound) / 2);
       return { estimatedPrice, lowerBound, upperBound };
     }
