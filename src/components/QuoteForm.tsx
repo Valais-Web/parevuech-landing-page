@@ -56,8 +56,8 @@ const QuoteForm = () => {
       const minPricing = PRICES_PER_ML["90"]?.[fixationType as "pdb" | "sceller"];
       const maxPricing = PRICES_PER_ML["180"]?.[fixationType as "pdb" | "sceller"];
       if (!minPricing || !maxPricing) return { estimatedPrice: 0, lowerBound: 0, upperBound: 0 };
-      const lowerBound = Math.round(length * minPricing.min * 1.1);
-      const upperBound = Math.round(length * maxPricing.max * 1.1);
+      const lowerBound = Math.round(length * minPricing.min);
+      const upperBound = Math.round(length * maxPricing.max);
       const estimatedPrice = Math.round((lowerBound + upperBound) / 2);
       return { estimatedPrice, lowerBound, upperBound };
     }
